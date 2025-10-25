@@ -12,7 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
 </head>
-    <body class="dark:bg-[#0a0a0a] text-amber-600 flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
+    <body class="dark:bg-[#0a0a0a] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
         {{ $slot }} <!-- echivalent   <?php echo $slot ?> -->
     </body>
 </html>

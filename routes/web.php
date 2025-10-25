@@ -5,7 +5,7 @@ use App\Http\Controllers\AuthController;
 
 Route::get('/', function () {
     $user = Auth::user();
-    return view('welcome', compact('user'));
+    return view('dashboard', compact('user'));
 })->middleware('auth');
 
 // ruta pentru afisarea formularului login
