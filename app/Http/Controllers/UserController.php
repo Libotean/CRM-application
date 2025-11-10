@@ -1,0 +1,56 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
+
+class UserController extends Controller
+{
+    // metoda pentru a afisa toti utilizatorii
+    public function index()
+    {
+        $users = User::orderBy('lastname')->get();
+        return view('admin.users.index', compact('users'));
+    }
+    // metoda pentru a afisa formularul de adaugare
+    public function create()
+    {
+        return view('admin.users.create');
+    }
+
+    // metoda pentru a adauga un utilizator nou
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8',
+            'country' => 'required|string|max:255',
+            'county' => 'required|string|max:255',
+            'locality' => 'required|string|max:255',
+            'role' => ['required', Rule::in(['admin', 'user'])], // rolul trebuie sa fie admin sau user
+            'date_start' => 'nullable|date',
+            'date_end' => 'nullable|date|after_or_equal:date_start',
+        ]);
+
+        User::create([
+           'firstname' => $validated['firstname'],
+           'lastname' => $validated['lastname'],
+           'country' => $validated['country'],
+           'county' => $validated['county'],
+           'locality' => $validated['locality'],
+           'email' => $validated['email'],
+           'password' => Hash::make($validated['password']),
+           'role' => $validated['role'],
+           'date_start' => $validated['date_start'],
+           'date_end' => $validated['date_end'],
+        ]);
+
+        return redirect()->route('admin.users.index')->with('success', 'User created successfully');
+    }
+}

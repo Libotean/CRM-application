@@ -5,7 +5,10 @@
             Hello, Admin!
         </h1>
         <p class="text-white"> You have full access. </p>
-
+        <a href="{{ route('admin.users.index') }}"
+           class="mt-4 inline-block bg-blue-700 text-white py-2 px-6 rounded-lg hover:bg-blue-800 font-bold transition duration-150">
+            Gestiune Consilieri
+        </a>
     @else
 
         <h1 class="text-3xl font-bold text-white">
