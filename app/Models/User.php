@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -52,5 +53,17 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // metoda pentru dezactivarea conturilor expirate
+    public static function updateExpiredStatus(): void
+    {
+        $currentDate = now()->toDateString();
+
+        DB::table('users')
+            ->whereNotNull('date_end')
+            ->whereDate('date_end', '<', $currentDate)
+            ->where('is_active', '=', true)
+            ->update(['is_active' => false]);
     }
 }
