@@ -13,7 +13,7 @@
         </a>
 
         @if (session('success'))
-            <div class="bg-green-100 text-green-700 p-3 rounded-lg mb-4">
+            <div id = "flash-message" class="bg-green-100 text-green-700 p-3 rounded-lg mb-4">
                 {{ session('success') }}
             </div>
         @endif
@@ -54,3 +54,20 @@
         </div>
     </div>
 </x-layout>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const flashMessage = document.getElementById('flash-message');
+        if(flashMessage)
+        {
+            setTimeout(()=> {
+                flashMessage.style.transition = 'opacity 0.5s ease-out';
+                flashMessage.style.opacity = '0';
+
+                setTimeout(() => {
+                    flashMessage.style.display = 'none';
+                }, 500);
+            }, 4000);
+        }
+    });
+</script>
