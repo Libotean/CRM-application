@@ -66,4 +66,14 @@ class User extends Authenticatable
             ->where('is_active', '=', true)
             ->update(['is_active' => false]);
     }
+
+    public function clients()
+    {
+        return $this->hasMany(Client::class);
+    }
+
+    public function getFullNameAttribute(): string
+    {
+        return "{$this->firstname} {$this->lastname}";
+    }
 }

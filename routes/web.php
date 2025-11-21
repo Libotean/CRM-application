@@ -3,6 +3,7 @@
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Auth;
 
 //Route::get('/', function () {
 //    $user = Auth::user();
@@ -37,5 +38,11 @@ Route::middleware('auth')->group(function () {
 
         // procesare si salvare utilizator
         Route::post('/users', [UserController::class, 'store'])->name('users.store');
+
+        // afisare detalii utilizator
+        Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+
+        // form editare utilizator
+        Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
     });
 });

@@ -32,7 +32,7 @@
                 <tbody>
                 @foreach ($users as $user)
                     <tr class="border-b hover:bg-gray-50">
-                        <td class="py-3 px-4">{{ $user->lastname }} {{ $user->firstname }}</td>
+                        <td class="py-3 px-4">{{ $user->full_name }}</td>
                         <td class="py-3 px-4">{{ $user->email }}</td>
                         <td class="py-3 px-4 capitalize">{{ $user->role }}</td>
                         <td class="py-3 px-4">
@@ -43,7 +43,7 @@
                             @endif
                         </td>
                         <td class="py-3 px-4">
-                            <a href="#" class="inline-block bg-blue-700 text-white py-1 px-4 rounded-lg hover:bg-blue-800 font-bold transition duration-150 text-sm">
+                            <a href="{{ route('admin.users.show', $user->id) }}" class="inline-block bg-blue-700 text-white py-1 px-4 rounded-lg hover:bg-blue-800 font-bold transition duration-150 text-sm">
                                 Detalii
                             </a>
                         </td>
