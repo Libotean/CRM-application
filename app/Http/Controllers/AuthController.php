@@ -22,7 +22,7 @@ class AuthController extends Controller
             'password' => ['required'],
         ]);
 
-        // check if users exists
+        // check if userrs exists
         $user = User::where('email', $credentials['email'])->first();
 
         if(!$user || !Hash::check($credentials['password'], $user->password)) {
