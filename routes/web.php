@@ -22,7 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function (){
        $user = Auth::user();
        return view('dashboard', compact('user'));
-    });
+    })->name('dashboard');
 
     // ruta pentru logout
     Route::post('/logout', [AuthController::class, 'logout']) -> name('logout');
@@ -44,5 +44,8 @@ Route::middleware('auth')->group(function () {
 
         // form editare utilizator
         Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+
+        // stergere utilizator
+        Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     });
 });

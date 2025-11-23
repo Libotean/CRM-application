@@ -65,4 +65,14 @@ class UserController extends Controller
     {
         return view('admin.users.edit', compact('user'));
     }
+
+    public function destroy(User $user)
+    {
+        if (Auth::id() == $user->id) {
+            return redirect()->route('admin.users.index')->with('error', 'Nu poti sterge propriul cont!');
+        }
+
+        $user->delete();
+        return redirect()->route('admin.users.index')->with('success', 'User deleted successfully');
+    }
 }

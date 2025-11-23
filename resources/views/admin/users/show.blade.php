@@ -5,17 +5,31 @@
             <div class="flex items-center gap-4">
                 <a href="{{ route('admin.users.index') }}" 
                    class="bg-black text-white px-6 py-3 rounded hover:bg-gray-800 transition font-bold text-lg">
-                    ← Inapoi
+                    &larr; Inapoi
                 </a>
                 <h1 class="text-3xl font-extrabold text-black uppercase tracking-tight">
                     Fisa Consilier
                 </h1>
             </div>
 
-            <a href="{{ route('admin.users.edit', $user->id) }}" 
-               class="bg-red-700 text-white px-8 py-3 rounded hover:bg-red-800 transition font-bold text-lg shadow-sm">
-                EDITEAZA DATELE
-            </a>
+            <div class="flex items-center gap-3">
+                
+                <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" 
+                      onsubmit="return confirm('Esti sigur ca vrei sa stergi acest consilier? Aceasta actiune este ireversibila.')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" 
+                            class="text-red-700 hover:text-white border-2 border-red-700 hover:bg-red-800 focus:ring-0 font-bold rounded px-6 py-3 text-center transition uppercase tracking-wide text-sm">
+                        Sterge Cont
+                    </button>
+                </form>
+
+                <a href="{{ route('admin.users.edit', $user->id) }}" 
+                   class="bg-red-700 text-white px-6 py-3 rounded hover:bg-red-800 transition font-bold text-sm uppercase tracking-wide shadow-sm flex items-center border-2 border-red-700">
+                    Editează Datele
+                </a>
+
+            </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">

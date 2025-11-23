@@ -6,8 +6,11 @@
                 <h1 class="text-3xl font-extrabold text-black uppercase tracking-tight">
                     Gestionare Consilieri
                 </h1>
+                <a href="{{ route('dashboard') }}" class="text-gray-500 hover:text-black font-bold text-sm flex items-center mb-2 transition">
+                    <span class="mr-1">&larr;</span> Inapoi
+                </a>
+            
             </div>
-
             <a href="{{ route('admin.users.create') }}" class="bg-red-700 text-white px-6 py-3 rounded hover:bg-red-800 transition font-bold shadow-sm flex items-center">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                 ADAUGA NOU
@@ -26,7 +29,7 @@
                 <thead class="bg-gray-100">
                     <tr>
                         <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Nume Complet</th>
-                        <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Email (Login)</th>
+                        <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Email</th>
                         <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Rol</th>
                         <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Status Cont</th>
                         <th class="py-4 px-6 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Actiuni</th>
