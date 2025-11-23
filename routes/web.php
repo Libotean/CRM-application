@@ -3,6 +3,7 @@
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ConsilierController;
 
 //Route::get('/', function () {
 //    $user = Auth::user();
@@ -38,4 +39,10 @@ Route::middleware('auth')->group(function () {
         // procesare si salvare utilizator
         Route::post('/users', [UserController::class, 'store'])->name('users.store');
     });
+    
+    //routa pentru consilier
+    Route::prefix('consilier')->middleware('is_consilier')->name('consilier.')->group(function () {
+        Route::get('index', [ConsilierController::class, 'index'])->name('index');
+    });
+
 });

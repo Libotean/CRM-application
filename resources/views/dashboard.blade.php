@@ -24,4 +24,8 @@
             Logout
         </button>
     </form>
+
+    <a href="{{route('consilier.index')}}" class="inline-block bg-blue-700 text-white py-2 px-6 rounded-lg hover:bg-blue-800 font-bold transition duration-150 mb-4">
+                    ← Inapoi
+                </a>
 </x-layout>

@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'auth' => Authenticate::class,
             'is_admin' => \App\Http\Middleware\AdminRoleCheck::class,
+            'is_consilier' => \App\Http\Middleware\ConsilierRoleCheck::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
