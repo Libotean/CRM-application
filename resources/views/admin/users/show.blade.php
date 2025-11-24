@@ -44,7 +44,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
                             <label class="block text-sm font-bold text-gray-500 uppercase mb-1">Nume Complet</label>
-                            <p class="text-2xl font-bold text-black">{{ $user->lastname }} {{ $user->firstname }}</p>
+                            <p class="text-2xl font-bold text-black">{{ $user->fullName }}</p>
                         </div>
 
                         <div>
@@ -114,7 +114,7 @@
                             @forelse($user->clients->sortByDesc('created_at')->take(3) as $client)
                                 <li class="border-b border-gray-800 pb-2">
                                     <span class="block font-bold text-white">{{ $client->full_name }}</span>
-                                    <span class="text-xs text-gray-400">{{ $client->created_at->format('d.m.Y') }}</span>
+                                    <span class="text-xs text-gray-400">{{ $client->created_at?->format('d.m.Y') ?? '-' }}</span>
                                 </li>
                             @empty
                                 <li class="text-gray-500 italic">Niciun client recent.</li>

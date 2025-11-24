@@ -48,7 +48,8 @@
                 <thead class="bg-gray-100">
                     <tr>
                         <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase">Nume Client / Firma</th>
-                        <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase">Contact</th>
+                        <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase">Telefon</th>
+                        <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase">Email</th>
                         <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase">Tip</th>
                         <th class="py-4 px-6 text-left text-xs font-bold text-red-700 uppercase">Consilier Alocat</th>
                         <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase">Data Inreg.</th>
@@ -59,7 +60,7 @@
                     @forelse($clients as $client)
                         <tr class="hover:bg-gray-50 transition">
                             <td class="py-4 px-6">
-                                <div class="font-bold text-gray-900">{{ $client->full_name }}</div>
+                                <div class="font-bold text-gray-900">{{ $client->fullName }}</div>
                                 @if($client->type == 'juridica' && $client->cui)
                                     <div class="text-xs text-gray-500">CUI: {{ $client->cui }}</div>
                                 @endif
@@ -67,7 +68,10 @@
 
                             <td class="py-4 px-6 text-sm">
                                 <div class="text-gray-900">{{ $client->phone ?? '-' }}</div>
-                                <div class="text-gray-500 text-xs">{{ $client->email ?? '' }}</div>
+                            </td>
+
+                            <td class="py-4 px-6 text-sm">
+                                <div class="text-gray-900">{{ $client->email ?? '' }}</div>
                             </td>
 
                             <td class="py-4 px-6">
@@ -94,7 +98,7 @@
                             </td>
 
                             <td class="py-4 px-6 text-sm text-gray-500">
-                                {{ $client->created_at->format('d.m.Y') }}
+                                {{ $client->created_at?->format('d.m.Y') ?? '-'}}
                             </td>
 
                             <td class="py-4 px-6 text-right">
