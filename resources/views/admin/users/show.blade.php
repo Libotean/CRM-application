@@ -26,7 +26,7 @@
 
                 <a href="{{ route('admin.users.edit', $user->id) }}" 
                    class="bg-red-700 text-white px-6 py-3 rounded hover:bg-red-800 transition font-bold text-sm uppercase tracking-wide shadow-sm flex items-center border-2 border-red-700">
-                    Editează Datele
+                    Editeaza Datele
                 </a>
 
             </div>

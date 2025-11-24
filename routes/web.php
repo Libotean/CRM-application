@@ -45,6 +45,9 @@ Route::middleware('auth')->group(function () {
         // form editare utilizator
         Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
 
+        // form actualizare utilizator
+        Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+
         // stergere utilizator
         Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     });
