@@ -22,7 +22,7 @@ return new class extends Migration
             // Este nullable() pentru că atunci când aduci mașina, nu e vândută nimănui.
             $table->foreignId('client_id')
                 ->nullable()
-                ->constrained('clients') // Specificăm explicit numele tabelei tale
+                ->constrained('client') // Specificăm explicit numele tabelei tale
                 ->nullOnDelete();        // Dacă ștergi clientul, mașina rămâne în istoric (fără proprietar)
 
             // --- IDENTIFICARE STOC ---
