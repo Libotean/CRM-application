@@ -11,11 +11,35 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     // metoda pentru a afisa toti utilizatorii
-    public function index()
+    public function index(Request $request) 
     {
+        $query = User::query();
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function($q) use ($search) {
+                $q->where('firstname', 'like', "%$search%")
+                ->orWhere('lastname', 'like', "%$search%")
+                ->orWhere('email', 'like', "%$search%");
+            });
+        }
+
+        if ($request->filled('role')) {
+            $query->where('role', $request->input('role'));
+        }
+
+        if ($request->filled('status')) {
+            $isActive = $request->input('status') == 'active';
+            $query->where('is_active', $isActive);
+        }
         User::updateExpiredStatus();
-        $users = User::orderBy('lastname')->get();
-        return view('admin.users.index', compact('users'));
+
+        $users = $query->orderBy('lastname')->get();
+
+        return view('admin.users.index', [
+            'users' => $users,
+            'filters' => $request->all() 
+        ]);
     }
     // metoda pentru a afisa formularul de adaugare
     public function create()

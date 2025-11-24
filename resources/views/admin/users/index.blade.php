@@ -23,7 +23,61 @@
                 <span class="font-bold">{{ session('success') }}</span>
             </div>
         @endif
+        <div class="bg-gray-100 p-6 rounded-lg border border-gray-300 mb-8 shadow-inner">
+            <form action="{{ route('admin.users.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+                
+                <div class="md:col-span-4">
+                    <label for="search" class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
+                        Cauta (Nume / Email)
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        </div>
+                        <input type="text" name="search" id="search" 
+                               value="{{ request('search') }}" 
+                               placeholder="Popescu, admin@atp..."
+                               class="w-full pl-10 border-2 border-gray-300 rounded px-3 py-2 text-sm focus:border-black focus:ring-0 transition">
+                    </div>
+                </div>
 
+                <div class="md:col-span-3">
+                    <label for="role" class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
+                        Filtreaza dupa Rol
+                    </label>
+                    <select name="role" id="role" class="w-full border-2 border-gray-300 rounded px-3 py-2 text-sm bg-white focus:border-black focus:ring-0 transition">
+                        <option value="">- Toate Rolurile -</option>
+                        <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Administrator</option>
+                        <option value="user" {{ request('role') == 'user' ? 'selected' : '' }}>Consilier Vanzari</option>
+                    </select>
+                </div>
+
+                <div class="md:col-span-3">
+                    <label for="status" class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
+                        Status Cont
+                    </label>
+                    <select name="status" id="status" class="w-full border-2 border-gray-300 rounded px-3 py-2 text-sm bg-white focus:border-black focus:ring-0 transition">
+                        <option value="">- Orice Status -</option>
+                        <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Activ</option>
+                        <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactiv</option>
+                    </select>
+                </div>
+
+                <div class="md:col-span-2 flex gap-2">
+                    <button type="submit" class="w-full bg-black text-white border-2 border-black px-4 py-2 rounded text-sm font-bold hover:bg-gray-800 transition uppercase tracking-wide">
+                        Cauta
+                    </button>
+                    
+                    @if(request()->anyFilled(['search', 'role', 'status']))
+                        <a href="{{ route('admin.users.index') }}" 
+                           class="flex items-center justify-center w-12 bg-white text-red-700 border-2 border-red-200 hover:border-red-700 hover:bg-red-50 rounded transition"
+                           title="Șterge Filtrele">
+                            ✕
+                        </a>
+                    @endif
+                </div>
+            </form>
+        </div>
         <div class="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-100">
