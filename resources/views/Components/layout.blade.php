@@ -23,11 +23,11 @@
             </div>
 
             <div class="flex items-center gap-6">
-                <a href="{{ route('admin.users.index') }}" class="text-white hover:text-red-500 transition font-medium border-b-2 border-red-600 pb-1">
+                <a href="{{ route('admin.users.index') }}" class="{{ request()->routeIs('admin.users.*') ? 'text-white border-b-2 border-red-600' : 'text-gray-400 hover:text-white' }} transition font-medium pb-1">
                     Consilieri
                 </a>
                 
-                <a href="#" class="text-gray-400 hover:text-white transition font-medium">
+                <a href="{{ route('admin.clients.index') }}" class="{{ request()->routeIs('admin.clients.*') ? 'text-white border-b-2 border-red-600' : 'text-gray-400 hover:text-white' }} transition font-medium pb-1">
                     Clienti
                 </a>
 

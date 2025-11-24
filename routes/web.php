@@ -17,7 +17,6 @@ Route::get('/login', [AuthController::class, 'showLoginForm']) -> name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
 
-
 Route::middleware('auth')->group(function () {
     Route::get('/', function (){
        $user = Auth::user();
@@ -29,6 +28,10 @@ Route::middleware('auth')->group(function () {
 
     // grup rute admin
     Route::prefix('admin')->middleware('is_admin')->name('admin.')->group(function () {
+
+        Route::resource('users', UserController::class);
+
+        Route::resource('clients', \App\Http\Controllers\AdminClientController::class);
 
         // lista utilizatori
         Route::get('/users', [UserController::class, 'index'])->name('users.index');

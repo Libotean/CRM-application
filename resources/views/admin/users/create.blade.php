@@ -8,7 +8,7 @@
             </div>
             
             <a href="{{ route('admin.users.index') }}" class="text-gray-500 hover:text-black font-bold transition flex items-center">
-                <span class="mr-2">←</span> Inapoi la lista
+                <span class="mr-2">←</span> Inapoi
             </a>
         </div>
 
