@@ -22,15 +22,17 @@ class ConsilierController extends Controller
             'cui'=> 'required|string|max:12',
             'tva_payer'=> 'required|boolean',
             'email'=> 'required|email|unique:client,email',
-            'phone'=> 'string|digits_between:10,15',
-            'country'=> 'string|max:255',
-            'county'=> 'string|max:255',
-            'locality'=> 'string|max:255',
-            'address'=> 'string|max:255',
+            'phone'=> 'nullable|string|digits_between:10,15',
+            'country'=> 'nullable|string|max:255',
+            'county'=> 'nullable|string|max:255',
+            'locality'=> 'nullable|string|max:255',
+            'address'=> 'nullable|string|max:255',
+
             'status' => 'required|string|in:activ,inactiv',
         ]);
 
         Client::create([
+           'user_id' => auth()->id(),
            'firstname'=> $validated['firstname'],
            'lastname'=> $validated['lastname'],
            'type'=> $validated['type'],
@@ -47,6 +49,13 @@ class ConsilierController extends Controller
         ]);
 
         return redirect()->route('consilier.index')->with('success', 'Clinetul a fost creat cu success');
+    }
+
+    public function show(Client $client)
+    {
+        $client->load('');
+        //return view('consilier.show', compact('client'));
+
     }
 }
 

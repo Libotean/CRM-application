@@ -42,9 +42,9 @@ Route::middleware('auth')->group(function () {
     
     //routa pentru consilier
     Route::prefix('consilier')->middleware('is_consilier')->name('consilier.')->group(function () {
-        Route::get('index', [ConsilierController::class, 'index'])->name('index');
+        Route::get('/', [ConsilierController::class, 'index'])->name('index');
 
-        Route::post('index', [ConsilierController::class, 'store'])->name('store');
+        Route::post('/', [ConsilierController::class, 'store'])->name('store');
     });
 
 });
