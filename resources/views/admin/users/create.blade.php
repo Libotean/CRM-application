@@ -7,7 +7,7 @@
                 </h1>
             </div>
             
-            <a href="{{ route('admin.users.index') }}" class="text-gray-500 hover:text-black font-bold transition flex items-center">
+            <a href="{{ route('dashboard') }}" class="text-gray-500 hover:text-black font-bold transition flex items-center">
                 <span class="mr-2">←</span> Inapoi
             </a>
         </div>
@@ -65,7 +65,7 @@
                 </div>
 
                 <div>
-                    <label for="password" class="block text-gray-800 text-sm font-bold mb-2 uppercase">Parola *</label>
+                    <label for="password" class="block text-gray-800 text-sm font-bold mb-2 uppercase">Parola *<span class="text-gray-400 font-normal lowercase ml-1">(minim 8 caractere)</span></label>
                     <input type="password" name="password" id="password"
                            class="w-full border-2 rounded px-4 py-3 focus:outline-none transition font-medium
                            @error('password') border-red-600 focus:border-red-700 text-red-900 @else border-gray-300 focus:border-black text-gray-900 @enderror"

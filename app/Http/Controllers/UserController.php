@@ -32,6 +32,7 @@ class UserController extends Controller
             $isActive = $request->input('status') == 'active';
             $query->where('is_active', $isActive);
         }
+
         User::updateExpiredStatus();
 
         $users = $query->orderBy('lastname')->get();
@@ -120,7 +121,7 @@ class UserController extends Controller
         ];
 
         if ($request->filled('password')) {
-            $dataToUopdate['password'] = Hash::make($validated['[password']);
+            $dataToUpdate['password'] = Hash::make($validated['[password']);
         }
 
         $user->update($dataToUpdate);

@@ -45,7 +45,7 @@
             </div>
 
             <button type="submit" class="w-full bg-red-700 text-white py-4 rounded-lg hover:bg-red-800 font-bold text-lg uppercase tracking-wider shadow-lg transition transform hover:-translate-y-0.5">
-                Intră în cont
+                Intra in cont
             </button>
         </form>
         
