@@ -4,10 +4,10 @@
 
             <div class="mb-6 flex justify-between items-center">
                 <h2 class="text-3xl font-bold text-white">
-                    Parc Auto - Stoc Vehicule
+                     Stoc Vehicule
                 </h2>
-                <a href="/" class="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 font-bold transition">
-                    ← Înapoi la Dashboard
+                <a href="{{ route('consilier.index') }}" class="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 font-bold transition">
+                    ← Înapoi la gestionarea Clientilor
                 </a>
             </div>
 
