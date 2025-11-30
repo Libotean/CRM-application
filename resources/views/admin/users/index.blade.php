@@ -71,7 +71,7 @@
                     @if(request()->anyFilled(['search', 'role', 'status']))
                         <a href="{{ route('admin.users.index') }}" 
                            class="flex items-center justify-center w-12 bg-white text-red-700 border-2 border-red-200 hover:border-red-700 hover:bg-red-50 rounded transition"
-                           title="Șterge Filtrele">
+                           title="Sterge Filtrele">
                             ✕
                         </a>
                     @endif
@@ -93,7 +93,12 @@
                 @foreach ($users as $user)
                     <tr class="hover:bg-gray-50 transition duration-150">
                         <td class="py-4 px-6 whitespace-nowrap">
-                            <div class="font-bold text-gray-900">{{ $user->full_name }}</div>
+                            @if (Auth::id() == $user->id)
+                                <div class="font-bold text-red-700 ">{{ $user->full_name }}</div>
+                                <div class="text-sm text-gray-500 font-medium mt-1">(Contul tau)</div>
+                            @else
+                                <div class="font-bold text-gray-900">{{ $user->full_name }}</div>
+                            @endif
                         </td>
                         
                         <td class="py-4 px-6 whitespace-nowrap text-gray-600">

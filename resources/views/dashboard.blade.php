@@ -4,7 +4,7 @@
             Salut, <span class="text-red-700">{{ $user->firstname }}</span>!
         </h1>
         <p class="text-gray-500 mt-1">
-            Rol activ: <span class="font-bold uppercase text-black">{{ $user->role }}</span>
+            Rol activ: <span class="font-bold uppercase text-black">{{ $user->role == 'user' ? 'Consilier' : $user->role}}</span>
         </p>
     </div>
 
@@ -48,16 +48,6 @@
 
     @else
 
-        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8">
-            <div class="flex">
-                <div class="ml-3">
-                    <p class="text-sm text-yellow-700">
-                        <span class="font-bold">Nota Dezvoltare (Admin):</span> Interfata de mai jos este statica (Demo). Functionalitatea CRM (Clienți, Lead-uri) urmează să fie implementata de echipa de backend.
-                    </p>
-                </div>
-            </div>
-        </div>
-
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 opacity-75">
             <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
                 <p class="text-gray-500 text-xs font-bold uppercase">Portofoliul Meu</p>
@@ -74,7 +64,7 @@
             </div>
         </div>
 
-        <h2 class="text-xl font-bold text-gray-800 mb-4 opacity-75">Clienti Recenti (Demo)</h2>
+        <h2 class="text-xl font-bold text-gray-800 mb-4 opacity-75">Clienti Recenti</h2>
         <div class="bg-white rounded-lg shadow overflow-hidden opacity-75">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
