@@ -121,7 +121,15 @@ class UserController extends Controller
         ];
 
         if ($request->filled('password')) {
-            $dataToUpdate['password'] = Hash::make($validated['[password']);
+            $dataToUpdate['password'] = Hash::make($validated['password']);
+        }
+
+        if($validated['date_end']) {
+            if (\Carbon\Carbon::parse($validated['date_end'])->isPast()) {
+                $dataToUpdate['is_active'] = false;
+            } else {
+                $dataToUpdate['is_active'] = true;
+            }
         }
 
         $user->update($dataToUpdate);
