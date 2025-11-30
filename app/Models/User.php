@@ -52,18 +52,31 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' =>'boolean',
         ];
     }
 
     // metoda pentru dezactivarea conturilor expirate
     public static function updateExpiredStatus(): void
     {
-        $currentDate = now()->toDateString();
+        $users = self::where('is_active', true)
+                    ->whereNotNull('date_end')
+                    ->get();
+        
+        foreach ($users as $user) {
+            if ($user->date_end && \Carbon\Carbon::parse($user->date_end)->isPast()) {
+                $user->update(['is_active' => false]);
+            }
+        }
+    }
 
-        DB::table('users')
-            ->whereNotNull('date_end')
-            ->whereDate('date_end', '<', $currentDate)
-            ->where('is_active', '=', true)
-            ->update(['is_active' => false]);
+    public function clients()
+    {
+        return $this->hasMany(Client::class);
+    }
+
+    public function getFullNameAttribute(): string
+    {
+        return "{$this->firstname} {$this->lastname}";
     }
 }

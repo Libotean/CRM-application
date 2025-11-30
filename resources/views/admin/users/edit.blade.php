@@ -1,21 +1,24 @@
 <x-layout>
-    <div class="container mx-auto max-w-4xl"> 
+    <div class="container mx-auto max-w-4xl">
+
         <div class="flex justify-between items-center mb-8 border-b-2 border-black pb-4">
             <div>
                 <h1 class="text-3xl font-extrabold text-black uppercase tracking-tight">
-                    Adauga Consilier
+                    Editeaza Consilier
                 </h1>
+                <p class="text-gray-500 text-sm mt-1">
+                    Modifici datele pentru: <span class="font-bold text-black">{{ $user->full_name }}</span>
+                </p>
             </div>
             
-            <a href="{{ route('dashboard') }}" class="text-gray-500 hover:text-black font-bold transition flex items-center">
+            <a href="{{ route('admin.users.index') }}" class="text-gray-500 hover:text-black font-bold transition flex items-center">
                 <span class="mr-2">←</span> Inapoi
             </a>
         </div>
 
-        <form action="{{ route('admin.users.store') }}" method="POST" class="bg-white p-8 rounded shadow-md border border-gray-200">
+        <form action="{{ route('admin.users.update', $user->id) }}" method="POST" class="bg-white p-8 rounded shadow-md border border-gray-200">
             @csrf
-
-            @if ($errors->any())
+            @method('PUT') @if ($errors->any())
                 <div class="bg-red-50 border-l-4 border-red-700 text-red-800 p-4 rounded mb-8 flex items-start">
                     <svg class="w-6 h-6 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     <div>
@@ -35,7 +38,7 @@
                     <input type="text" name="lastname" id="lastname"
                            class="w-full border-2 rounded px-4 py-3 focus:outline-none transition font-medium
                            @error('lastname') border-red-600 focus:border-red-700 text-red-900 @else border-gray-300 focus:border-black text-gray-900 @enderror"
-                           value="{{ old('lastname') }}" required>
+                           value="{{ old('lastname', $user->lastname) }}" required>
                     @error('lastname') <p class="text-red-600 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
                 </div>
 
@@ -44,7 +47,7 @@
                     <input type="text" name="firstname" id="firstname"
                            class="w-full border-2 rounded px-4 py-3 focus:outline-none transition font-medium
                            @error('firstname') border-red-600 focus:border-red-700 text-red-900 @else border-gray-300 focus:border-black text-gray-900 @enderror"
-                           value="{{ old('firstname') }}" required>
+                           value="{{ old('firstname', $user->firstname) }}" required>
                     @error('firstname') <p class="text-red-600 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
                 </div>
             </div>
@@ -60,16 +63,17 @@
                     <input type="email" name="email" id="email"
                            class="w-full border-2 rounded px-4 py-3 focus:outline-none transition font-medium
                            @error('email') border-red-600 focus:border-red-700 text-red-900 @else border-gray-300 focus:border-black text-gray-900 @enderror"
-                           value="{{ old('email') }}" required>
+                           value="{{ old('email', $user->email) }}" required>
                     @error('email') <p class="text-red-600 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
-                    <label for="password" class="block text-gray-800 text-sm font-bold mb-2 uppercase">Parola *<span class="text-gray-400 font-normal lowercase ml-1">(minim 8 caractere)</span></label>
-                    <input type="password" name="password" id="password"
+                    <label for="password" class="block text-gray-800 text-sm font-bold mb-2 uppercase">
+                        Schimba Parola <span class="text-gray-400 font-normal lowercase">(lasa gol pentru a pastra actuala)</span>
+                    </label>
+                    <input type="password" name="password" id="password" placeholder="••••••••"
                            class="w-full border-2 rounded px-4 py-3 focus:outline-none transition font-medium
-                           @error('password') border-red-600 focus:border-red-700 text-red-900 @else border-gray-300 focus:border-black text-gray-900 @enderror"
-                           required>
+                           @error('password') border-red-600 focus:border-red-700 text-red-900 @else border-gray-300 focus:border-black text-gray-900 @enderror">
                     @error('password') <p class="text-red-600 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
                 </div>
 
@@ -79,8 +83,8 @@
                             class="w-full border-2 rounded px-4 py-3 focus:outline-none transition font-medium bg-white
                             @error('role') border-red-600 focus:border-red-700 @else border-gray-300 focus:border-black @enderror"
                             required>
-                        <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>Consilier Vanzari (Standard)</option>
-                        <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Administrator (Acces Total)</option>
+                        <option value="user" {{ old('role', $user->role) == 'user' ? 'selected' : '' }}>Consilier Vanzari (Standard)</option>
+                        <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Administrator (Acces Total)</option>
                     </select>
                     @error('role') <p class="text-red-600 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
                 </div>
@@ -96,7 +100,7 @@
                     <input type="text" name="country" id="country"
                            class="w-full border-2 rounded px-4 py-3 focus:outline-none transition font-medium
                            @error('country') border-red-600 focus:border-red-700 @else border-gray-300 focus:border-black @enderror"
-                           value="{{ old('country', 'Romania') }}" required>
+                           value="{{ old('country', $user->country) }}" required>
                 </div>
 
                 <div>
@@ -104,7 +108,7 @@
                     <input type="text" name="county" id="county"
                            class="w-full border-2 rounded px-4 py-3 focus:outline-none transition font-medium
                            @error('county') border-red-600 focus:border-red-700 @else border-gray-300 focus:border-black @enderror"
-                           value="{{ old('county') }}" required>
+                           value="{{ old('county', $user->county) }}" required>
                 </div>
 
                 <div>
@@ -112,7 +116,7 @@
                     <input type="text" name="locality" id="locality"
                            class="w-full border-2 rounded px-4 py-3 focus:outline-none transition font-medium
                            @error('locality') border-red-600 focus:border-red-700 @else border-gray-300 focus:border-black @enderror"
-                           value="{{ old('locality') }}" required>
+                           value="{{ old('locality', $user->locality) }}" required>
                 </div>
             </div>
 
@@ -122,7 +126,7 @@
                     <input type="date" name="date_start" id="date_start"
                            class="w-full border-2 rounded px-4 py-3 focus:outline-none transition font-medium
                            @error('date_start') border-red-600 focus:border-red-700 @else border-gray-300 focus:border-black @enderror"
-                           value="{{ old('date_start') }}">
+                           value="{{ old('date_start', $user->date_start) }}">
                     @error('date_start') <p class="text-red-600 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
                 </div>
 
@@ -131,7 +135,7 @@
                     <input type="date" name="date_end" id="date_end"
                            class="w-full border-2 rounded px-4 py-3 focus:outline-none transition font-medium
                            @error('date_end') border-red-600 focus:border-red-700 @else border-gray-300 focus:border-black @enderror"
-                           value="{{ old('date_end') }}">
+                           value="{{ old('date_end', $user->date_end) }}">
                     @error('date_end') <p class="text-red-600 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
                 </div>
             </div>
@@ -142,7 +146,7 @@
                 </a>
                 
                 <button type="submit" class="bg-red-700 text-white py-4 px-10 rounded hover:bg-red-800 font-bold uppercase tracking-wider shadow-lg transition transform hover:-translate-y-0.5">
-                    Creeaza Contul
+                    Salveaza Modificarile
                 </button>
             </div>
 

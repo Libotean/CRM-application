@@ -25,7 +25,7 @@ return new class extends Migration
             $table->date('date_end')->nullable();
             $table->enum('role', ['admin', 'user'])->default('user');
 
-            $table->boolean('is_active')->default(true); // for when date_end is the current date
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
 
