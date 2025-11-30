@@ -33,7 +33,8 @@ class AdminClientController extends Controller
         }
 
         $clients = $querry->latest()->paginate(15)->withQueryString();
-        return view('admin.clients.index', compact('clients'));
+        $consilieri = User::where('role', 'user')->orderBy('lastname')->get();
+        return view('admin.clients.index', compact('clients', 'consilieri'));
     }
 
     public function destroy(Client $client)

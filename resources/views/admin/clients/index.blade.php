@@ -19,11 +19,11 @@
                 <div class="md:col-span-5">
                     <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Cauta</label>
                     <input type="text" name="search" value="{{ request('search') }}" 
-                           placeholder="Nume, Firmă, Telefon, CUI..."
+                           placeholder="Nume, Telefon, CUI..."
                            class="w-full border-2 border-gray-300 rounded px-3 py-2 text-sm focus:border-black focus:ring-0 transition">
                 </div>
 
-                <div class="md:col-span-3">
+                <div class="md:col-span-2">
                     <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Tip Client</label>
                     <select name="type" class="w-full border-2 border-gray-300 rounded px-3 py-2 text-sm bg-white focus:border-black focus:ring-0">
                         <option value="">- Toti -</option>
@@ -31,10 +31,25 @@
                         <option value="juridica" {{ request('type') == 'juridica' ? 'selected' : '' }}>Companie (Juridic)</option>
                     </select>
                 </div>
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
+                        Consilier Alocat
+                    </label>
+                    <select name="user_id" class="w-full border-2 border-gray-300 rounded px-3 py-2 text-sm bg-white focus:border-black focus:ring-0 transition">
+                        <option value="">- Toti Consilierii -</option>
+                        
+                        @foreach($consilieri as $consilier)
+                            <option value="{{ $consilier->id }}" {{ request('user_id') == $consilier->id ? 'selected' : '' }}>
+                                {{ $consilier->lastname }} {{ $consilier->firstname }}
+                            </option>
+                        @endforeach
+
+                    </select>
+                </div>
 
                 <div class="md:col-span-2 flex gap-2">
                     <button type="submit" class="w-full bg-black text-white px-4 py-2 rounded text-sm font-bold hover:bg-gray-800 transition uppercase">
-                        Filtrează
+                        Filtreaza
                     </button>
                     @if(request()->anyFilled(['search', 'type', 'status']))
                         <a href="{{ route('admin.clients.index') }}" class="flex items-center justify-center w-12 bg-white text-red-700 border-2 border-red-200 rounded hover:bg-red-50 font-bold">✕</a>
