@@ -8,8 +8,8 @@ class ConsilierController extends Controller
 {
     public function index()
     {
-        $client = Client::orderBy('lastname')->get();
-        return view('consilier.index', compact('client'));
+        $clients = Client::orderBy('lastname')->get();
+        return view('consilier.index', compact('clients'));
     }
 
     public function store(Request $request)
