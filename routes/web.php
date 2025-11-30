@@ -4,6 +4,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ConsilierController;
 
 //Route::get('/', function () {
 //    $user = Auth::user();
@@ -57,9 +58,11 @@ Route::middleware('auth')->group(function () {
     
     //routa pentru consilier
     Route::prefix('consilier')->middleware('is_consilier')->name('consilier.')->group(function () {
-        Route::get('/', [ConsilierController::class, 'index'])->name('index');
+        Route::get('/clients/index', [ConsilierController::class, 'index'])->name( 'clients.index');
 
-        Route::post('/', [ConsilierController::class, 'store'])->name('store');
+        Route::get('/clients/create', [ConsilierController::class, 'create'])->name( 'clients.create');
+
+        Route::post('/clients/store', [ConsilierController::class, 'store'])->name('clients.store');
     });
 
 });

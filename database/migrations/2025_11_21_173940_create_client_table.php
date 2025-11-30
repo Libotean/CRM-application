@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->foreignID('user_id')->nullable()->constrained()->nullOnDelete();
-            $table->string('type', ['persoanaFizica', 'persoanaJuridica'])->default('persoanaFizica');
+            $table->string('type',20)->default('persoanaFizica');
             $table->string('firstname');
             $table->string('lastname');
             $table->char('cnp', 13)->nullable()->unique();

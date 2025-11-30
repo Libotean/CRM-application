@@ -59,35 +59,28 @@
                 <h3 class="text-3xl font-bold text-green-600 mt-1">--</h3>
             </div>
 
-            <div class="bg-gray-200 p-6 rounded-lg border border-gray-300 flex items-center justify-center text-center">
-                <span class="text-gray-500 font-bold uppercase tracking-wide">Adauga Client (Indisponibil)</span>
+            {{-- Aici am de motidifcat pentru gestiunea clientilor --}}
+            <a href="{{ route('consilier.clients.create') }}" class="bg-black group p-6 rounded-lg shadow-md hover:bg-gray-900 transition flex flex-col justify-center text-center items-center cursor-pointer">
+                <div class="bg-red-700 text-white p-3 rounded-full mb-2 group-hover:scale-110 transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                </div>
+                <div class="text-white font-bold uppercase text-sm">Adaugare Client Nou</div>
+            </a>
+        </div>
+
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="p-6 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
+                <h2 class="text-xl font-bold text-gray-800">Panou de Control General</h2>
+                <a href="{{ route('consilier.clients.index') }}" class="text-red-700 font-bold text-sm hover:underline">Vezi toti utilizatorii &rarr;</a>
+            </div>
+            <div class="p-6">
+                <p class="text-gray-600">
+                    Acesta este panoul consilierului. De aici poti gestiona clientii in aplicatie, poti vizualiza clientii si le poti modifica statusul acestora.
+                </p>
             </div>
         </div>
 
-        <h2 class="text-xl font-bold text-gray-800 mb-4 opacity-75">Clienti Recenti</h2>
-        <div class="bg-white rounded-lg shadow overflow-hidden opacity-75">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Nume</th>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Status</th>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Data</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    <tr>
-                        <td class="px-6 py-4 text-sm font-bold text-gray-900">Exemplu Client 1</td>
-                        <td class="px-6 py-4 text-sm text-gray-500">Activ</td>
-                        <td class="px-6 py-4 text-sm text-gray-500">--.--.----</td>
-                    </tr>
-                    <tr>
-                        <td class="px-6 py-4 text-sm font-bold text-gray-900">Exemplu Client 2</td>
-                        <td class="px-6 py-4 text-sm text-gray-500">Inactiv</td>
-                        <td class="px-6 py-4 text-sm text-gray-500">--.--.----</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
     @endif
+
+        
 </x-layout>

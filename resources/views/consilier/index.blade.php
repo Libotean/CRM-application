@@ -1,328 +1,165 @@
 <x-layout>
-    <!-- Header Section -->
-    <div class="mb-8 border-b border-gray-300 pb-4">
-        <h1 class="text-3xl font-bold text-gray-900">
-            Bine ai venit, <span class="text-red-700">{{ Auth::user()->firstname }}</span>!
-        </h1>
-        <p class="text-gray-500 mt-1">
-            🚗 Gestiune Clienți - <span class="font-bold uppercase text-black">ATP MOTORS</span> Baia Mare
-        </p>
-    </div>
-
-    @if(session('success'))
-    <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-8">
-        <div class="flex">
-            <div class="ml-3">
-                <p class="text-sm text-green-700">
-                    <span class="font-bold">✓</span> {{ session('success') }}
-                </p>
+    <div class="container mx-auto">
+        
+        <div class="flex justify-between items-center mb-8 border-b-2 border-black pb-4">
+            <div>
+                <h1 class="text-3xl font-extrabold text-black uppercase tracking-tight">
+                    Gestionare Clienti
+                </h1>
+                <a href="{{ route('dashboard') }}" class="text-gray-500 hover:text-black font-bold text-sm flex items-center mb-2 transition">
+                    <span class="mr-1">&larr;</span> Inapoi
+                </a>
+            
             </div>
+            <a href="{{ route('consilier.clients.create') }}" class="bg-red-700 text-white px-6 py-3 rounded hover:bg-red-800 transition font-bold shadow-sm flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                ADAUGA NOU
+            </a>
         </div>
-    </div>
-    @endif
 
-    <!-- Table Section -->
-    <div class="bg-white rounded-lg shadow overflow-hidden mb-8">
-        <div class="p-6 border-b border-gray-200 bg-gray-50">
-            <h2 class="text-xl font-bold text-gray-800">👥 Lista Clienților</h2>
-        </div>
-        
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Prenume</th>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Nume</th>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">CNP</th>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Email</th>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Telefon</th>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Localitate</th>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Status</th>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Actiuni</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($clients as $c)
-                    <tr class="border-b border-gray-200 hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 transition-all duration-300 hover:translate-x-1">
-                        <td class="px-6 py-4 text-gray-800">{{ $c->firstname }}</td>
-                        <td class="px-6 py-4 text-gray-800">{{ $c->lastname }}</td>
-                        <td class="px-6 py-4 text-gray-800">{{ $c->cnp ?? '-' }}</td>
-                        <td class="px-6 py-4 text-gray-800">{{ $c->email }}</td>
-                        <td class="px-6 py-4 text-gray-800">{{ $c->phone }}</td>
-                        <td class="px-6 py-4 text-gray-800">{{ $c->locality ?? '-' }}</td>
-                        <td class="px-6 py-4">
-                            @if(strtolower($c->status) === 'activ')
-                                <span class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-green-100 text-green-800">
-                                    {{ ucfirst($c->status) }}
-                                </span>
-                            @else
-                                <span class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-gray-100 text-gray-800">
-                                    {{ ucfirst($c->status) }}
-                                </span>
-                            @endif
-                        </td>
-                        <td class="py-4 px-6 whitespace-nowrap text-right text-sm font-medium">
-                            <a href="{{ route('consilier.store', $c->id) }}" class="text-red-700 hover:text-red-900 font-bold mr-3 transition">
-                                Detalii
-                            </a>
-                            <a href="{{ route('consilier.index', $c->id) }}" class="text-gray-400 hover:text-gray-600 transition">
-                                <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-                            </a>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Form Section -->
-    <div class="bg-white rounded-lg shadow overflow-hidden">
-        <div class="p-6 border-b border-gray-200 bg-gray-50">
-            <h2 class="text-xl font-bold text-gray-800">➕ Adaugă Client Nou</h2>
-        </div>
-        
-        <div class="p-6">
-            <form action="{{ route('consilier.store') }}" method="POST">
-                @csrf
+        @if (session('success'))
+            <div id="flash-message" class="bg-green-100 border-l-4 border-green-600 text-green-800 p-4 rounded shadow-sm mb-6 flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                <span class="font-bold">{{ session('success') }}</span>
+            </div>
+        @endif
+        <div class="bg-gray-100 p-6 rounded-lg border border-gray-300 mb-8 shadow-inner">
+            <form action="{{ route('consilier.clients.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
                 
-                <!-- Informații Personale -->
-                <h3 class="text-lg font-bold text-gray-800 mb-4 mt-2">Informații Personale</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-                    <div class="flex flex-col gap-2">
-                        <label for="firstname" class="text-gray-700 font-bold text-sm">Prenume *</label>
-                        <input 
-                            type="text" 
-                            id="firstname"
-                            name="firstname" 
-                            placeholder="Introduceți prenumele"
-                            value="{{ old('firstname') }}"
-                            class="px-4 py-2 border border-gray-300 rounded-lg text-sm transition-all duration-200 focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-100"
-                            required
-                        >
-                        @error('firstname')
-                            <span class="text-red-600 text-xs mt-1">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="flex flex-col gap-2">
-                        <label for="lastname" class="text-gray-700 font-bold text-sm">Nume *</label>
-                        <input 
-                            type="text" 
-                            id="lastname"
-                            name="lastname" 
-                            placeholder="Introduceți numele"
-                            value="{{ old('lastname') }}"
-                            class="px-4 py-2 border border-gray-300 rounded-lg text-sm transition-all duration-200 focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-100"
-                            required
-                        >
-                        @error('lastname')
-                            <span class="text-red-600 text-xs mt-1">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="flex flex-col gap-2">
-                        <label for="type" class="text-gray-700 font-bold text-sm">Tip Client *</label>
-                        <select 
-                            id="type"
-                            name="type"
-                            required
-                            class="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-100 bg-white"
-                        >
-                            <option value="fizic">Persoană Fizică</option>
-                            <option value="juridic">Persoană Juridică</option>
-                        </select>
-
-                        @error('type')
-                            <span class="text-red-600 text-xs mt-1">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="flex flex-col gap-2">
-                        <label for="cnp" class="text-gray-700 font-bold text-sm">CNP *</label>
-                        <input 
-                            type="text" 
-                            id="cnp"
-                            name="cnp" 
-                            placeholder="1234567890123"
-                            value="{{ old('cnp') }}"
-                            maxlength="13"
-                            class="px-4 py-2 border border-gray-300 rounded-lg text-sm transition-all duration-200 focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-100"
-                            required
-                        >
-                        @error('cnp')
-                            <span class="text-red-600 text-xs mt-1">{{ $message }}</span>
-                        @enderror
+                <div class="md:col-span-4">
+                    <label for="search" class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
+                        Cauta (Nume / Email)
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        </div>
+                        <input type="text" name="search" id="search" 
+                               value="{{ request('search') }}" 
+                               placeholder="Popescu, admin@atp..."
+                               class="w-full pl-10 border-2 border-gray-300 rounded px-3 py-2 text-sm focus:border-black focus:ring-0 transition">
                     </div>
                 </div>
 
-                <!-- Informații Fiscale -->
-                <h3 class="text-lg font-bold text-gray-800 mb-4 mt-6">Informații Fiscale</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-                    <div class="flex flex-col gap-2">
-                        <label for="cui" class="text-gray-700 font-bold text-sm">CUI *</label>
-                        <input 
-                            type="text" 
-                            id="cui"
-                            name="cui" 
-                            placeholder="RO12345678"
-                            value="{{ old('cui') }}"
-                            maxlength="12"
-                            class="px-4 py-2 border border-gray-300 rounded-lg text-sm transition-all duration-200 focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-100"
-                            required
-                        >
-                        @error('cui')
-                            <span class="text-red-600 text-xs mt-1">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="flex flex-col gap-2">
-                        <label for="tva_payer" class="text-gray-700 font-bold text-sm">Plătitor TVA *</label>
-                        <select 
-                            id="tva_payer"
-                            name="tva_payer" 
-                            class="px-4 py-2 border border-gray-300 rounded-lg text-sm transition-all duration-200 focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-100 bg-white"
-                            required
-                        >
-                            <option value="">Selectează</option>
-                            <option value="1" {{ old('tva_payer') == '1' ? 'selected' : '' }}>Da</option>
-                            <option value="0" {{ old('tva_payer') == '0' ? 'selected' : '' }}>Nu</option>
-                        </select>
-                        @error('tva_payer')
-                            <span class="text-red-600 text-xs mt-1">{{ $message }}</span>
-                        @enderror
-                    </div>
+                <div class="md:col-span-3">
+                    <label for="status" class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
+                        Status Cont
+                    </label>
+                    <select name="status" id="status" class="w-full border-2 border-gray-300 rounded px-3 py-2 text-sm bg-white focus:border-black focus:ring-0 transition">
+                        <option value="">- Orice Status -</option>
+                        <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Activ</option>
+                        <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactiv</option>
+                    </select>
                 </div>
 
-                <!-- Contact -->
-                <h3 class="text-lg font-bold text-gray-800 mb-4 mt-6">Informații de Contact</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-                    <div class="flex flex-col gap-2">
-                        <label for="email" class="text-gray-700 font-bold text-sm">Email *</label>
-                        <input 
-                            type="email" 
-                            id="email"
-                            name="email" 
-                            placeholder="exemplu@email.com"
-                            value="{{ old('email') }}"
-                            class="px-4 py-2 border border-gray-300 rounded-lg text-sm transition-all duration-200 focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-100"
-                            required
-                        >
-                        @error('email')
-                            <span class="text-red-600 text-xs mt-1">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="flex flex-col gap-2">
-                        <label for="phone" class="text-gray-700 font-bold text-sm">Telefon</label>
-                        <input 
-                            type="text" 
-                            id="phone"
-                            name="phone" 
-                            placeholder="07XX XXX XXX"
-                            value="{{ old('phone') }}"
-                            class="px-4 py-2 border border-gray-300 rounded-lg text-sm transition-all duration-200 focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-100"
-                        >
-                        @error('phone')
-                            <span class="text-red-600 text-xs mt-1">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-
-                <!-- Adresă -->
-                <h3 class="text-lg font-bold text-gray-800 mb-4 mt-6">Adresă</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-                    <div class="flex flex-col gap-2">
-                        <label for="country" class="text-gray-700 font-bold text-sm">Țară</label>
-                        <input 
-                            type="text" 
-                            id="country"
-                            name="country" 
-                            placeholder="România"
-                            value="{{ old('country') }}"
-                            class="px-4 py-2 border border-gray-300 rounded-lg text-sm transition-all duration-200 focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-100"
-                        >
-                        @error('country')
-                            <span class="text-red-600 text-xs mt-1">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="flex flex-col gap-2">
-                        <label for="county" class="text-gray-700 font-bold text-sm">Județ</label>
-                        <input 
-                            type="text" 
-                            id="county"
-                            name="county" 
-                            placeholder="Maramureș"
-                            value="{{ old('county') }}"
-                            class="px-4 py-2 border border-gray-300 rounded-lg text-sm transition-all duration-200 focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-100"
-                        >
-                        @error('county')
-                            <span class="text-red-600 text-xs mt-1">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="flex flex-col gap-2">
-                        <label for="locality" class="text-gray-700 font-bold text-sm">Localitate</label>
-                        <input 
-                            type="text" 
-                            id="locality"
-                            name="locality" 
-                            placeholder="Baia Mare"
-                            value="{{ old('locality') }}"
-                            class="px-4 py-2 border border-gray-300 rounded-lg text-sm transition-all duration-200 focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-100"
-                        >
-                        @error('locality')
-                            <span class="text-red-600 text-xs mt-1">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="flex flex-col gap-2 md:col-span-2 lg:col-span-3">
-                        <label for="address" class="text-gray-700 font-bold text-sm">Adresă Completă</label>
-                        <input 
-                            type="text" 
-                            id="address"
-                            name="address" 
-                            placeholder="Strada, Număr, Bloc, Scara, Etaj, Apartament"
-                            value="{{ old('address') }}"
-                            class="px-4 py-2 border border-gray-300 rounded-lg text-sm transition-all duration-200 focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-100"
-                        >
-                        @error('address')
-                            <span class="text-red-600 text-xs mt-1">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-
-                <!-- Status -->
-                <h3 class="text-lg font-bold text-gray-800 mb-4 mt-6">Status Client</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-                    <div class="flex flex-col gap-2">
-                        <label for="status" class="text-gray-700 font-bold text-sm">Status *</label>
-                        <select 
-                            id="status"
-                            name="status" 
-                            class="px-4 py-2 border border-gray-300 rounded-lg text-sm transition-all duration-200 focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-100 bg-white"
-                            required
-                        >
-                            <option value="activ" {{ old('status') === 'activ' ? 'selected' : '' }}>Activ</option>
-                            <option value="inactiv" {{ old('status') === 'inactiv' ? 'selected' : '' }}>Inactiv</option>
-                        </select>
-                        @error('status')
-                            <span class="text-red-600 text-xs mt-1">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-
-                <!-- Submit Button -->
-                <div class="mt-8">
-                    <button 
-                        type="submit" 
-                        class="bg-black text-white px-8 py-3 rounded-lg text-sm font-bold uppercase tracking-wider shadow-md hover:bg-gray-900 transition-all duration-200"
-                    >
-                        Adaugă Client
+                <div class="md:col-span-2 flex gap-2">
+                    <button type="submit" class="w-full bg-black text-white border-2 border-black px-4 py-2 rounded text-sm font-bold hover:bg-gray-800 transition uppercase tracking-wide">
+                        Cauta
                     </button>
+                    
+                    @if(request()->anyFilled(['search', 'role', 'status']))
+                        <a href="{{ route('consilier.clients.index') }}" 
+                           class="flex items-center justify-center w-12 bg-white text-red-700 border-2 border-red-200 hover:border-red-700 hover:bg-red-50 rounded transition"
+                           title="Sterge Filtrele">
+                            ✕
+                        </a>
+                    @endif
                 </div>
             </form>
         </div>
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Nume Complet</th>
+                        <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Email</th>
+                        <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Rol</th>
+                        <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Status Cont</th>
+                        <th class="py-4 px-6 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Actiuni</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                @foreach ($clients as $client)
+                    <tr class="hover:bg-gray-50 transition duration-150">
+                        <td class="py-4 px-6 whitespace-nowrap">
+                            @if (Auth::id() == $client->id)
+                                <div class="font-bold text-red-700 ">{{ $client->full_name }}</div>
+                                <div class="text-sm text-gray-500 font-medium mt-1">(Contul tau)</div>
+                            @else
+                                <div class="font-bold text-gray-900">{{ $client->full_name }}</div>
+                            @endif
+                        </td>
+                        
+                        <td class="py-4 px-6 whitespace-nowrap text-gray-600">
+                            {{ $client->email }}
+                        </td>
+
+                        <td class="py-4 px-6 whitespace-nowrap">
+                            <span class="px-2 py-1 text-xs font-bold rounded uppercase {{ $client->role == 'admin' ? 'bg-black text-white' : 'bg-gray-200 text-gray-800' }}">
+                                {{ $client->role }}
+                            </span>
+                        </td>
+
+                        <td class="py-4 px-6 whitespace-nowrap">
+                            @if ($client->is_active)
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    <span class="w-2 h-2 bg-green-500 rounded-full mr-1.5"></span> Activ
+                                </span>
+                            @else
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                    <span class="w-2 h-2 bg-red-500 rounded-full mr-1.5"></span> Inactiv
+                                </span>
+                            @endif
+                        </td>
+
+                        {{-- <td class="py-4 px-6 whitespace-nowrap text-right">
+                            <div class="flex items-center justify-end gap-3"> <a href="{{ route('consilier.clients.show', $client->id) }}" 
+                                class="text-sm font-bold text-red-700 hover:text-black transition uppercase tracking-wide mr-2">
+                                    Detalii
+                                </a>
+
+                                <a href="{{ route('admin.users.edit', $user->id) }}" 
+                                class="text-gray-400 hover:text-blue-600 transition p-1" 
+                                title="Editează">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                                </a>
+
+                                <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" 
+                                    onsubmit="return confirm('Esti sigur că vrei sa stergi utilizatorul {{ $user->full_name }}?');" 
+                                    class="inline-block">
+                                    @csrf
+                                    @method('DELETE')
+                                    
+                                    <button type="submit" class="text-gray-400 hover:text-red-600 transition p-1 focus:outline-none" title="Șterge">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    </button>
+                                </form>
+
+                            </div>
+                        </td> --}}
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+            
+            @if($clients->isEmpty())
+                <div class="p-8 text-center text-gray-500">
+                    Nu exista niciun utilizator inregistrat.
+                </div>
+            @endif
+        </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const flashMessage = document.getElementById('flash-message');
+            if(flashMessage) {
+                setTimeout(()=> {
+                    flashMessage.style.transition = 'opacity 0.5s ease-out';
+                    flashMessage.style.opacity = '0';
+                    setTimeout(() => { flashMessage.style.display = 'none'; }, 500);
+                }, 4000);
+            }
+        });
+    </script>
 </x-layout>

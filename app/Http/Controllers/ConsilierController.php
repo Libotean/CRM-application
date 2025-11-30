@@ -4,12 +4,19 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use Illuminate\Http\Request;
 
+
 class ConsilierController extends Controller
 {
     public function index()
     {
         $clients = Client::orderBy('lastname')->get();
         return view('consilier.index', compact('clients'));
+
+    }
+
+    public function create()
+    {
+        return view('consilier.create');
     }
 
     public function store(Request $request)
@@ -21,7 +28,7 @@ class ConsilierController extends Controller
             'cnp' => 'required|string|max:13',
             'cui'=> 'required|string|max:12',
             'tva_payer'=> 'required|boolean',
-            'email'=> 'required|email|unique:client,email',
+            'email'=> 'required|email|unique:clients,email',
             'phone'=> 'nullable|string|digits_between:10,15',
             'country'=> 'nullable|string|max:255',
             'county'=> 'nullable|string|max:255',
@@ -48,7 +55,7 @@ class ConsilierController extends Controller
            'status'=> $validated['status'],
         ]);
 
-        return redirect()->route('consilier.index')->with('success', 'Clinetul a fost creat cu success');
+        return redirect()->route('consilier.clients.index')->with('success', 'Clinetul a fost creat cu success');
     }
 
     public function show(Client $client)
