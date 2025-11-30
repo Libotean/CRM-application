@@ -13,6 +13,6 @@
 
 </head>
     <body class="dark:bg-[#0a0a0a] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
-        {{ $slot }} 
+        {{ $slot }}
     </body>
 </html>
