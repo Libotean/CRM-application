@@ -25,8 +25,21 @@ class ConsilierController extends Controller
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'type'=> 'required|string',
-            'cnp' => 'required|string|max:13',
-            'cui'=> 'required|string|max:12',
+            'cnp' => [
+                'nullable',
+                'string',
+                'max:13',
+                'required_if:type,persoana_fizica', 
+                'unique:clients,cnp',
+            ],
+
+            'cui'=> [
+                'nullable',
+                'string',
+                'max:12',
+                'required_if:type,persoana_juridica',
+                'unique:clients,cui',
+            ],
             'tva_payer'=> 'required|boolean',
             'email'=> 'required|email|unique:clients,email',
             'phone'=> 'nullable|string|digits_between:10,15',
@@ -34,8 +47,6 @@ class ConsilierController extends Controller
             'county'=> 'nullable|string|max:255',
             'locality'=> 'nullable|string|max:255',
             'address'=> 'nullable|string|max:255',
-
-            'status' => 'required|string|in:activ,inactiv',
         ]);
 
         Client::create([
@@ -43,8 +54,8 @@ class ConsilierController extends Controller
            'firstname'=> $validated['firstname'],
            'lastname'=> $validated['lastname'],
            'type'=> $validated['type'],
-           'cnp'=> $validated['cnp'],
-           'cui'=> $validated['cui'],
+           'cnp'=> $validated['cnp'] ?? null,
+           'cui'=> $validated['cui'] ?? null,
            'tva_payer'=> $validated['tva_payer'],
            'email'=> $validated['email'],
            'phone'=> $validated['phone'],
@@ -52,7 +63,7 @@ class ConsilierController extends Controller
            'county'=> $validated['county'],
            'locality'=> $validated['locality'],
            'address'=> $validated['address'],
-           'status'=> $validated['status'],
+           'status'=> 'activ',
         ]);
 
         return redirect()->route('consilier.clients.index')->with('success', 'Clinetul a fost creat cu success');
