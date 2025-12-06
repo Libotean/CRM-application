@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Client;
+use App\Models\Lead;
 use Illuminate\Http\Request;
 
 
@@ -9,7 +10,9 @@ class ConsilierController extends Controller
 {
     public function index()
     {
-        $clients = Client::orderBy('lastname')->get();
+        $clients = Client::where('user_id', auth()->id())
+                     ->orderBy('lastname')
+                     ->get();
         return view('consilier.index', compact('clients'));
     }
 
@@ -70,10 +73,18 @@ class ConsilierController extends Controller
 
     public function show(Client $client)
     {
-        $client->load('');
-        //return view('consilier.show', compact('client'));
+        $client = Client::where('id', $client->id)
+                        ->where('user_id', auth()->id())
+                        ->firstOrFail();
 
+        $client->load(['leads' => function ($query) {
+            $query->orderBy('appointment_date', 'desc');
+        }]);
+
+        return view('consilier.show', compact('client'));
     }
+
+
 }
 
 

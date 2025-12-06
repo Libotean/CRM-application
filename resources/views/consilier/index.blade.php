@@ -81,12 +81,7 @@
                 @foreach ($clients as $client)
                     <tr class="hover:bg-gray-50 transition duration-150">
                         <td class="py-4 px-6 whitespace-nowrap">
-                            @if (Auth::id() == $client->id)
-                                <div class="font-bold text-red-700 ">{{ $client->full_name }}</div>
-                                <div class="text-sm text-gray-500 font-medium mt-1">(Contul tau)</div>
-                            @else
-                                <div class="font-bold text-gray-900">{{ $client->full_name }}</div>
-                            @endif
+                            <div class="font-bold text-gray-900">{{ $client->full_name }}</div>
                         </td>
                         
                         <td class="py-4 px-6 whitespace-nowrap text-gray-600">
@@ -105,31 +100,21 @@
                             @endif
                         </td>
 
-                        {{-- <td class="py-4 px-6 whitespace-nowrap text-right">
-                            <div class="flex items-center justify-end gap-3"> <a href="{{ route('consilier.clients.show', $client->id) }}" 
+                        <td class="py-4 px-6 whitespace-nowrap text-right">
+                            <div class="flex items-center justify-end gap-3">
+                                <a href=" {{ route('consilier.clients.show', $client->id ) }}" 
                                 class="text-sm font-bold text-red-700 hover:text-black transition uppercase tracking-wide mr-2">
                                     Detalii
                                 </a>
 
-                                <a href="{{ route('admin.users.edit', $user->id) }}" 
+                                <a href="#" 
                                 class="text-gray-400 hover:text-blue-600 transition p-1" 
-                                title="Editează">
+                                title="Editeaza">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                                 </a>
 
-                                <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" 
-                                    onsubmit="return confirm('Esti sigur că vrei sa stergi utilizatorul {{ $user->full_name }}?');" 
-                                    class="inline-block">
-                                    @csrf
-                                    @method('DELETE')
-                                    
-                                    <button type="submit" class="text-gray-400 hover:text-red-600 transition p-1 focus:outline-none" title="Șterge">
-                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                    </button>
-                                </form>
-
                             </div>
-                        </td> --}}
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -137,7 +122,7 @@
             
             @if($clients->isEmpty())
                 <div class="p-8 text-center text-gray-500">
-                    Nu exista niciun utilizator inregistrat.
+                    Nu exista niciun client creat.
                 </div>
             @endif
         </div>

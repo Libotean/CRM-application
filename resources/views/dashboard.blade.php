@@ -48,15 +48,20 @@
 
     @else
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 opacity-75">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
                 <p class="text-gray-500 text-xs font-bold uppercase">Portofoliul Meu</p>
-                <h3 class="text-3xl font-bold text-gray-900 mt-1">--</h3>
+                <h3 class="text-3xl font-bold text-gray-900 mt-1">
+                    <span> {{ $user->clients->count() }}</span>
+                    <span class="text-md text-gray-500"> clienti</span>
+                </h3>
             </div>
 
             <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
                 <p class="text-gray-500 text-xs font-bold uppercase">Lead-uri Active</p>
-                <h3 class="text-3xl font-bold text-green-600 mt-1">--</h3>
+                <h3 class="text-3xl font-bold text-green-600 mt-1">
+                    {{ $user->leads->where('is_completed', false)->count() }}
+                </h3>
             </div>
 
             {{-- Aici am de motidifcat pentru gestiunea clientilor --}}
@@ -68,15 +73,67 @@
             </a>
         </div>
 
-        <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="bg-white rounded-lg shadow overflow-hidden border border-gray-200">
             <div class="p-6 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
-                <h2 class="text-xl font-bold text-gray-800">Panou de Control General</h2>
-                <a href="{{ route('consilier.clients.index') }}" class="text-red-700 font-bold text-sm hover:underline">Vezi toti utilizatorii &rarr;</a>
+                <h2 class="text-xl font-bold text-gray-800 flex items-center">
+                    Activitati Planificate
+                </h2>
+                <a href="{{ route('consilier.clients.index') }}" class="text-red-700 font-bold text-sm hover:underline">Vezi toti clientii &rarr;</a>
             </div>
-            <div class="p-6">
-                <p class="text-gray-600">
-                    Acesta este panoul consilierului. De aici poti gestiona clientii in aplicatie, poti vizualiza clientii si le poti modifica statusul acestora.
-                </p>
+            
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Data si Ora</th>
+                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Client</th>
+                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Obiectiv</th>
+                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Metoda</th>
+                            <th class="px-6 py-3 text-right"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {{-- 
+                            Logica: Luăm lead-urile nefinalizate, le sortăm cronologic (cele mai vechi/urgente primele) și luăm doar 5 
+                        --}}
+                        @forelse($user->leads->where('is_completed', false)->sortBy('appointment_date')->take(5) as $lead)
+                            <tr class="hover:bg-yellow-50 transition">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <span class="font-bold text-gray-900">{{ $lead->appointment_date->format('d.m.Y') }}</span>
+                                    <span class="text-gray-500 ml-1">{{ $lead->appointment_date->format('H:i') }}</span>
+                                    
+                                    @if($lead->appointment_date->isPast())
+                                        <span class="ml-2 text-xs font-bold text-red-600 bg-red-100 px-2 py-0.5 rounded">INTARZIAT</span>
+                                    @endif
+                                </td>
+
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                    <a href="{{ route('consilier.clients.show', $lead->client->id) }}" class=" hover:underline"> {{ $lead->client->firstname }} {{ $lead->client->lastname }} </a>
+                                </td>
+
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                    {{ $lead->objective }}
+                                </td>
+
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {{ $lead->method }}
+                                </td>
+
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="{{ route('consilier.clients.show', $lead->client->id) }}" class="text-red-600 hover:text-red-900 font-bold border border-gray-200 px-3 py-1 rounded hover:bg-gray-50 transition">
+                                        Rezolva
+                                    </a>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="px-6 py-10 text-center text-gray-500 italic">
+                                    <p class="mb-2">Nu ai activitati in asteptare.</p>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
 

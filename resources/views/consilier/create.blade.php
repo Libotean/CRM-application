@@ -118,17 +118,6 @@
                            required>
                     @error('phone') <p class="text-red-600 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
                 </div>
-                
-                <div>
-                    <label for="password" class="block text-gray-800 text-sm font-bold mb-2 uppercase">Parola *<span class="text-gray-400 font-normal lowercase ml-1">(minim 8 caractere)</span></label>
-                    <input type="password" name="password" id="password"
-                           class="w-full border-2 rounded px-4 py-3 focus:outline-none transition font-medium
-                           @error('password') border-red-600 focus:border-red-700 text-red-900 @else border-gray-300 focus:border-black text-gray-900 @enderror"
-                           required>
-                    @error('password') <p class="text-red-600 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
-                </div>
-
-            
 
             </div>
 
