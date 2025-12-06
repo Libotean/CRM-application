@@ -11,7 +11,6 @@ class ConsilierController extends Controller
     {
         $clients = Client::orderBy('lastname')->get();
         return view('consilier.index', compact('clients'));
-
     }
 
     public function create()

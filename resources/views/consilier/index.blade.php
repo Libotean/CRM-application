@@ -47,8 +47,8 @@
                     </label>
                     <select name="status" id="status" class="w-full border-2 border-gray-300 rounded px-3 py-2 text-sm bg-white focus:border-black focus:ring-0 transition">
                         <option value="">- Orice Status -</option>
-                        <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Activ</option>
-                        <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactiv</option>
+                        <option value="active" {{ request('status') == 'activ' ? 'selected' : '' }}>Activ</option>
+                        <option value="inactive" {{ request('status') == 'inactiv' ? 'selected' : '' }}>Inactiv</option>
                     </select>
                 </div>
 
@@ -73,7 +73,6 @@
                     <tr>
                         <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Nume Complet</th>
                         <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Email</th>
-                        <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Rol</th>
                         <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Status Cont</th>
                         <th class="py-4 px-6 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Actiuni</th>
                     </tr>
@@ -95,13 +94,7 @@
                         </td>
 
                         <td class="py-4 px-6 whitespace-nowrap">
-                            <span class="px-2 py-1 text-xs font-bold rounded uppercase {{ $client->role == 'admin' ? 'bg-black text-white' : 'bg-gray-200 text-gray-800' }}">
-                                {{ $client->role }}
-                            </span>
-                        </td>
-
-                        <td class="py-4 px-6 whitespace-nowrap">
-                            @if ($client->is_active)
+                            @if ($client->status)
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                     <span class="w-2 h-2 bg-green-500 rounded-full mr-1.5"></span> Activ
                                 </span>
