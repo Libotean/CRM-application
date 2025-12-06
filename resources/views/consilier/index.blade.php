@@ -47,8 +47,8 @@
                     </label>
                     <select name="status" id="status" class="w-full border-2 border-gray-300 rounded px-3 py-2 text-sm bg-white focus:border-black focus:ring-0 transition">
                         <option value="">- Orice Status -</option>
-                        <option value="active" {{ request('status') == 'activ' ? 'selected' : '' }}>Activ</option>
-                        <option value="inactive" {{ request('status') == 'inactiv' ? 'selected' : '' }}>Inactiv</option>
+                        <option value="activ" {{ request('status') == 'activ' ? 'selected' : '' }}>Activ</option>
+                        <option value="inactiv" {{ request('status') == 'inactiv' ? 'selected' : '' }}>Inactiv</option>
                     </select>
                 </div>
 
@@ -57,7 +57,7 @@
                         Cauta
                     </button>
                     
-                    @if(request()->anyFilled(['search', 'role', 'status']))
+                    @if(request()->anyFilled(['search', 'status']))
                         <a href="{{ route('consilier.clients.index') }}" 
                            class="flex items-center justify-center w-12 bg-white text-red-700 border-2 border-red-200 hover:border-red-700 hover:bg-red-50 rounded transition"
                            title="Sterge Filtrele">
@@ -89,7 +89,7 @@
                         </td>
 
                         <td class="py-4 px-6 whitespace-nowrap">
-                            @if ($client->status)
+                            @if ($client->status == 'activ')
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                     <span class="w-2 h-2 bg-green-500 rounded-full mr-1.5"></span> Activ
                                 </span>
@@ -107,7 +107,7 @@
                                     Detalii
                                 </a>
 
-                                <a href="#" 
+                                <a href="{{ route('consilier.clients.edit', $client->id ) }}" 
                                 class="text-gray-400 hover:text-blue-600 transition p-1" 
                                 title="Editeaza">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>

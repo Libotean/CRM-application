@@ -8,11 +8,27 @@ use Illuminate\Http\Request;
 
 class ConsilierController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $clients = Client::where('user_id', auth()->id())
-                     ->orderBy('lastname')
-                     ->get();
+        $query = Client::where('user_id', auth()->id());
+
+    //Filtrarea dupa nume sau email
+    if ($request->filled('search')) {
+        $search = $request->search;
+        $query->where(function($q) use ($search) {
+            $q->where('firstname', 'like', "%{$search}%")
+              ->orWhere('lastname', 'like', "%{$search}%")
+              ->orWhere('email', 'like', "%{$search}%");
+        });
+    }
+
+    //Filtrarea dupa status
+    if ($request->filled('status')) {
+        $query->where('status', $request->status);
+    }
+
+    $clients = $query->orderBy('lastname')->get();
+
         return view('consilier.index', compact('clients'));
     }
 
@@ -83,6 +99,63 @@ class ConsilierController extends Controller
 
         return view('consilier.show', compact('client'));
     }
+
+    public function edit(Client $client)
+    {
+        return view('consilier.edit', compact('client'));
+    }
+
+    public function update(Request $request, Client $client)
+{
+    $validated = $request->validate([
+        'firstname' => 'required|string|max:255',
+        'lastname' => 'required|string|max:255',
+        'type' => 'required|in:PF,PJ',
+        'cnp' => [
+            'nullable',
+            'string',
+            'max:13',
+            'required_if:type,PF',
+            'unique:clients,cnp,' . $client->id, // ✅ CORECT - ignore clientul curent
+        ],
+        'cui' => [
+            'nullable',
+            'string',
+            'max:12',
+            'required_if:type,PJ',
+            'unique:clients,cui,' . $client->id, // ✅ CORECT - ignore clientul curent
+        ],
+        'type'=> 'required|string',
+        'tva_payer' => 'required|in:0,1', // ✅ Acceptă "0" sau "1"
+        'email' => 'required|email|unique:clients,email,' . $client->id, // ✅ CORECT
+        'phone' => 'required|string|max:15',
+        'country' => 'required|string|max:255',
+        'county' => 'required|string|max:255',
+        'locality' => 'required|string|max:255',
+        'address' => 'required|string|max:500',
+        'status' => 'required|in:activ,inactiv',
+    ]);
+
+    $dataToUpdate = [
+        'firstname' => $validated['firstname'],
+        'lastname' => $validated['lastname'],
+        'type' => $validated['type'],
+        'cnp' => $validated['cnp'] ?? null,
+        'cui' => $validated['cui'] ?? null,
+        'tva_payer' => $validated['tva_payer'],
+        'email' => $validated['email'], // ✅ NU adăuga $client->id aici!
+        'phone' => $validated['phone'],
+        'country' => $validated['country'],
+        'county' => $validated['county'],
+        'locality' => $validated['locality'],
+        'address' => $validated['address'],
+        'status' => $validated['status'], // ✅ Asta salvează status-ul corect
+    ];
+
+    $client->update($dataToUpdate);
+
+    return redirect()->route('consilier.clients.index')->with('success', 'Client actualizat cu succes');
+}
 
 
 }
