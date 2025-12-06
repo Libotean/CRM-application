@@ -41,7 +41,7 @@
         </div>
     </nav>
 
-    <main class="grow container mx-auto px-6 py-8">
+    <main class="grow w-full  px-8 py-8">
         {{ $slot }}
     </main>
 
