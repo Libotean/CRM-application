@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Client;
+use App\Models\Lead;
 use Illuminate\Http\Request;
 
 
@@ -71,10 +72,19 @@ class ConsilierController extends Controller
 
     public function show(Client $client)
     {
-        $client->load('');
-        //return view('consilier.show', compact('client'));
+        // verificam daca clientul apartine consilierului logat -- 403 = forbidden
+        if ($client->user_id != auth()->id()){
+            abort(403);
+        }
 
+        $client->load(['leads' => function ($query) {
+            $query->orderBy('appointment_date', 'desc');
+        }]);
+
+        return view('consilier.show', compact('client'));
     }
+
+    
 }
 
 

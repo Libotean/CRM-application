@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ConsilierController;
+use App\Http\Controllers\LeadController;
 
 //Route::get('/', function () {
 //    $user = Auth::user();
@@ -63,6 +64,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/clients/create', [ConsilierController::class, 'create'])->name( 'clients.create');
 
         Route::post('/clients/store', [ConsilierController::class, 'store'])->name('clients.store');
+
+        Route::post('/clients/{client}/leads', [LeadController::class, 'store'])->name('leads.store');
     });
 
 });
