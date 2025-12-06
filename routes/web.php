@@ -65,7 +65,11 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/clients/store', [ConsilierController::class, 'store'])->name('clients.store');
 
+        Route::get('/clients/{client}', [ConsilierController::class, 'show'])->name('clients.show');
+
         Route::post('/clients/{client}/leads', [LeadController::class, 'store'])->name('leads.store');
+        
+        Route::patch('/leads/{lead}/toggle', [LeadController::class, 'toggleStatus'])->name('leads.toggle');
     });
 
 });

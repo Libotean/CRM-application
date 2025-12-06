@@ -102,7 +102,7 @@
 
                         <td class="py-4 px-6 whitespace-nowrap text-right">
                             <div class="flex items-center justify-end gap-3">
-                                <a href="#" 
+                                <a href=" {{ route('consilier.clients.show', $client->id ) }}" 
                                 class="text-sm font-bold text-red-700 hover:text-black transition uppercase tracking-wide mr-2">
                                     Detalii
                                 </a>
@@ -122,7 +122,7 @@
             
             @if($clients->isEmpty())
                 <div class="p-8 text-center text-gray-500">
-                    Nu exista niciun utilizator inregistrat.
+                    Nu exista niciun client creat.
                 </div>
             @endif
         </div>

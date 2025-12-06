@@ -10,7 +10,9 @@ class ConsilierController extends Controller
 {
     public function index()
     {
-        $clients = Client::orderBy('lastname')->get();
+        $clients = Client::where('user_id', auth()->id())
+                     ->orderBy('lastname')
+                     ->get();
         return view('consilier.index', compact('clients'));
 
     }
@@ -72,10 +74,9 @@ class ConsilierController extends Controller
 
     public function show(Client $client)
     {
-        // verificam daca clientul apartine consilierului logat -- 403 = forbidden
-        if ($client->user_id != auth()->id()){
-            abort(403);
-        }
+        $client = Client::where('id', $client->id)
+                        ->where('user_id', auth()->id())
+                        ->firstOrFail();
 
         $client->load(['leads' => function ($query) {
             $query->orderBy('appointment_date', 'desc');
@@ -84,7 +85,7 @@ class ConsilierController extends Controller
         return view('consilier.show', compact('client'));
     }
 
-    
+
 }
 
 

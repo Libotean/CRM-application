@@ -13,10 +13,10 @@ class LeadController extends Controller
     {
         $validated = $request->validate([
             'appointment_date' => 'required|date',
-            'appointment_time' => 'required|time',
+            'appointment_time' => 'required',
             'method' => 'required|string',
             'objective' => 'required|string',
-            'notes' => 'required|string',
+            'notes' => 'nullable|string',
         ]);
 
         $fullDate = $validated['appointment_date'] . ' ' . $validated['appointment_time'];
@@ -33,5 +33,18 @@ class LeadController extends Controller
 
 
         return back()->with('succes');
+    }
+
+    public function toggleStatus(Lead $lead)
+    {
+        if($lead->user_id != auth()->id()){
+            abort(403);
+        }
+
+        $lead->update([
+            'is_completed' => !$lead->is_completed
+        ]);
+
+        return back()->with('success');
     }
 }
