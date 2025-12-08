@@ -3,61 +3,79 @@
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ConsilierController;
-use App\Http\Controllers\VehicleController;
+use App\Http\Controllers\LeadController;
 
-// 1. Rute Login
+//Route::get('/', function () {
+//    $user = Auth::user();
+//    return view('dashboard', compact('user'));
+//})->middleware('auth');
+
+// ruta pentru afisarea formularului login
 Route::get('/login', [AuthController::class, 'showLoginForm']) -> name('login');
+
+// ruta pentru a procesa trimiterea formularului login
 Route::post('/login', [AuthController::class, 'login']);
 
-// 2. Grupul Protejat
-Route::middleware('auth')->group(function () {
 
-    // ✅ REPARAT EROAREA [dashboard]
-    // Am adăugat ->name('dashboard')
+Route::middleware('auth')->group(function () {
     Route::get('/', function (){
         $user = Auth::user();
         return view('dashboard', compact('user'));
     })->name('dashboard');
 
+    // ruta pentru logout
     Route::post('/logout', [AuthController::class, 'logout']) -> name('logout');
 
-    // --- RUTE VEHICULE ---
-    Route::get('/vehicule', [VehicleController::class, 'index']) -> name('vehicles.index');
-    Route::get('/vehicule/{id}/vinde', [VehicleController::class, 'sell']) -> name('vehicles.sell');
-    Route::post('/vehicule/{id}/vinde', [VehicleController::class, 'processSale']) -> name('vehicles.processSale');
-
-    // Rute noi pentru editare (pregătire pentru viitor, nu strică nimic dacă stau aici)
-    Route::get('/vehicule/{id}/edit', [VehicleController::class, 'edit']) -> name('vehicles.edit');
-    Route::put('/vehicule/{id}', [VehicleController::class, 'update']) -> name('vehicles.update');
-
-
-    // --- GRUP ADMIN ---
+    // grup rute admin
     Route::prefix('admin')->middleware('is_admin')->name('admin.')->group(function () {
 
-        // Lista utilizatori
+        Route::resource('users', UserController::class);
+
+        Route::resource('clients', \App\Http\Controllers\AdminClientController::class);
+
+        // lista utilizatori
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
-        // Formular adaugare
+        // form adaugare utilizator
         Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+
+        // procesare si salvare utilizator
         Route::post('/users', [UserController::class, 'store'])->name('users.store');
 
-        // ✅ REPARAT EROAREA [admin.users.show]
-        // Colegii tăi au un buton de "Vezi Detalii User" care caută ruta asta.
-        // O punem să ducă tot la index momentan, sau la o metodă 'show' dacă există.
-        // Dacă primești eroare că "Method show does not exist", schimbă 'show' cu 'index' mai jos.
-        Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
+        // afisare detalii utilizator
+        Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+
+        // form editare utilizator
+        Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+
+        // form actualizare utilizator
+        Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+
+        // stergere utilizator
+        Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     });
 
+    //routa pentru consilier
+    Route::prefix('consilier')->middleware('is_consilier')->name('consilier.')->group(function () {
+        Route::get('/clients/index', [ConsilierController::class, 'index'])->name( 'clients.index');
 
-    // --- GRUP CONSILIER ---
-    Route::prefix('consilier')->middleware('is_consilier')->group(function () {
+        Route::get('/clients/create', [ConsilierController::class, 'create'])->name( 'clients.create');
 
-        // ✅ REPARAT EROAREA [admin.clients.index]
-        // Butonul de "Înapoi" caută exact numele ăsta.
-        Route::get('index', [ConsilierController::class, 'index'])->name('admin.clients.index');
+        Route::post('/clients/store', [ConsilierController::class, 'store'])->name('clients.store');
 
-        Route::post('index', [ConsilierController::class, 'store'])->name('consilier.store');
+        Route::get('/clients/{client}', [ConsilierController::class, 'show'])->name('clients.show');
+
+        Route::get('/clients/{client}/edit', [ConsilierController::class, 'edit'])->name('clients.edit');
+
+        Route::put('/clients/{client}/update', [ConsilierController::class, 'update'])->name('clients.update');
+
+        Route::post('/clients/{client}/leads', [LeadController::class, 'store'])->name('leads.store');
+
+        Route::patch('/leads/{lead}/toggle', [LeadController::class, 'toggleStatus'])->name('leads.toggle');
+
+        Route::post('/clients/{client}/send-email', [LeadController::class, 'sendEmail'])->name('leads.sendEmail');
     });
 
 });
