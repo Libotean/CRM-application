@@ -27,8 +27,8 @@
                     <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Tip Client</label>
                     <select name="type" class="w-full border-2 border-gray-300 rounded px-3 py-2 text-sm bg-white focus:border-black focus:ring-0">
                         <option value="">- Toti -</option>
-                        <option value="fizica" {{ request('type') == 'fizica' ? 'selected' : '' }}>Persoana Fizica</option>
-                        <option value="juridica" {{ request('type') == 'juridica' ? 'selected' : '' }}>Companie (Juridic)</option>
+                        <option value="persoana_fizica" {{ request('type') == 'persoana_fizica' ? 'selected' : '' }}>Persoana Fizica</option>
+                        <option value="persoana_juridica" {{ request('type') == 'persoana_juridica' ? 'selected' : '' }}>Persoana Juridica</option>
                     </select>
                 </div>
                 <div class="md:col-span-2">
@@ -76,7 +76,7 @@
                         <tr class="hover:bg-gray-50 transition">
                             <td class="py-4 px-6">
                                 <div class="font-bold text-gray-900">{{ $client->fullName }}</div>
-                                @if($client->type == 'juridica' && $client->cui)
+                                @if($client->type == 'persoana_juridica' && $client->cui)
                                     <div class="text-xs text-gray-500">CUI: {{ $client->cui }}</div>
                                 @endif
                             </td>
@@ -90,10 +90,10 @@
                             </td>
 
                             <td class="py-4 px-6">
-                                @if($client->type == 'juridica')
-                                    <span class="px-2 py-1 text-xs font-bold bg-purple-100 text-purple-800 rounded uppercase">PJ</span>
+                                @if($client->type == 'persoana_juridica')
+                                    <span class="px-2 py-1 text-xs font-bold bg-purple-100 text-purple-800 rounded uppercase">Juridica</span>
                                 @else
-                                    <span class="px-2 py-1 text-xs font-bold bg-blue-100 text-blue-800 rounded uppercase">PF</span>
+                                    <span class="px-2 py-1 text-xs font-bold bg-blue-100 text-blue-800 rounded uppercase">Fizica</span>
                                 @endif
                             </td>
 
