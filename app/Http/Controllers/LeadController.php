@@ -11,6 +11,16 @@ use App\Mail\ContactClientMail;
 
 class LeadController extends Controller
 {
+    /** 
+     * Functie pentru stocarea lead-urilor
+     * 
+     * Valideaza datele primite prin request, combina data si ora intr-un singur camp
+     * si creaaza un lead asociat clientului si utilizatorului autentificat.
+     * 
+     * @param \Illuminate\Http\Request $request Request-ul care contine datele lead-ului
+     * @param \App\Models\Client $client Instanta clientului pentru care se creeaza lead-ul
+     * @return Redirectare inapoi cu un mesaj de succes
+    */
     public function store(Request $request, Client $client)
     {
         $validated = $request->validate([
@@ -37,6 +47,13 @@ class LeadController extends Controller
         return back()->with('succes');
     }
 
+    /**
+    * Schimbare stats lead existent.
+    * Verifica daca lead-ul apartine utilizatorului autentificat.
+    * Daca verificarea trece, inverseaza valoarea campului 'is_completed'.
+    * @param \App\Models\Lead $lead Instanta lead-ului care trebuie modificat
+    * @return \Illuminate\Http\RedirectResponse Redirectare inapoi cu mesaj de succes
+    */
     public function toggleStatus(Lead $lead)
     {
         if($lead->user_id != auth()->id()){
@@ -50,6 +67,15 @@ class LeadController extends Controller
         return back()->with('success');
     }
 
+    /**
+    * Trimite un email catre client si inregistreaza actiunea in istoricul lead-urilor.
+    * Valideaza subiectul si mesajul, pregateste datele,
+    * trimite emailul efectiv folosind Mailable-ul si creeaza automat
+    * un lead marcat ca 'finalizat' ce contine detaliile emailului trimis.
+    * @param \Illuminate\Http\Request $request Datele din formularul de email (subiect, mesaj)
+    * @param \App\Models\Client $client Clientul caruia i se trimite emailul
+    * @return \Illuminate\Http\RedirectResponse Redirectare cu mesaj de succes sau eroare in caz de esec
+    */
     public function sendEmail(Request $request, Client $client)
     {
         $validated = $request->validate([

@@ -14,10 +14,14 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
+    * Atributele care pot fi atribuite.
+    * Include campuri specifice CRM-ului:
+    * - role: 'admin' sau 'user'
+    * - date_end: Data la care expira accesul utilizatorului
+    * - is_active: Starea contului
+    *
+    * @var list<string>
+    */
     protected $fillable = [
         'firstname',
         'lastname',
@@ -51,13 +55,19 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'password' => 'hashed', // hash automat la setarea parolei
             'is_active' =>'boolean',
         ];
     }
 
-    // metoda pentru dezactivarea conturilor expirate
-    public static function updateExpiredStatus(): void
+    /**
+    * Metoda de mentenanta a conturilor.
+    * Aceasta functie este apelata pentru a verifica
+    * daca exista utilizatori activi a caror data de expirare a trecut.
+    * Daca gaseste astfel de cazuri, le dezactiveaza automat contul.
+    * @return void
+    */
+    public static function updateExpiredStatus(): void 
     {
         $users = self::where('is_active', true)
                     ->whereNotNull('date_end')
@@ -70,6 +80,11 @@ class User extends Authenticatable
         }
     }
 
+    /**
+    * Relatie One-to-Many cu modelul Client.
+    * Un utilizator poate avea in portofoliu mai multi Clienti.
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
     public function clients()
     {
         return $this->hasMany(Client::class);
@@ -80,6 +95,11 @@ class User extends Authenticatable
         return "{$this->firstname} {$this->lastname}";
     }
 
+    /**
+    * Relatie One-to-Many cu modelul Lead.
+    * Un utilizator poate inregistra mai multe interactiuni.
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
     public function leads()
     {
         return $this->hasMany(Lead::class);

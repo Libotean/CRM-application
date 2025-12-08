@@ -11,7 +11,7 @@
                 </a>
             </div>
             
-            </div>
+        </div>
 
         <div class="bg-gray-100 p-6 rounded-lg border border-gray-300 mb-8 shadow-inner">
             <form action="{{ route('admin.clients.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">

@@ -10,7 +10,13 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
-    // metoda pentru a afisa toti utilizatorii
+    /**
+    * Afiseaza o lista cu toti utilizatorii.
+    * Include logica de filtrare dupa nume, email, rol si status.
+    * Actualizeaza automat statusul conturilor expirate inainte de afisare.
+    * @param \Illuminate\Http\Request $request Request-ul ce contine eventualele filtre
+    * @return \Illuminate\View\View Returneaza view-ul cu lista utilizatorilor si filtrele active
+    */
     public function index(Request $request) 
     {
         $query = User::query();
@@ -42,13 +48,22 @@ class UserController extends Controller
             'filters' => $request->all() 
         ]);
     }
-    // metoda pentru a afisa formularul de adaugare
+
+    /**
+    * Afiseaza formularul de creare a unui utilizator nou.
+    * @return \Illuminate\View\View
+    */
     public function create()
     {
         return view('admin.users.create');
     }
 
-    // metoda pentru a adauga un utilizator nou
+    /**
+    * Salveaza un utilizator nou in baza de date.
+    * Valideaza datele, hash-uieste parola si seteaza datele de valabilitate ale contului.
+    * @param \Illuminate\Http\Request $request Datele din formularul de adaugare
+    * @return \Illuminate\Http\RedirectResponse Redirect catre lista de utilizatori
+    */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -80,19 +95,37 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'User created successfully');
     }
 
+    /**
+    * Afiseaza detaliile complete ale unui utilizator.
+    * Incarca lista de clienti asociati acestui utilizator.
+    * @param \App\Models\User $user Utilizatorul selectat
+    * @return \Illuminate\View\View
+    */
     public function show(User $user)
     {
         $user->load('clients');
         return view('admin.users.show', compact('user'));
     }
 
+    /**
+    * Afiseaza formularul de editare pentru un utilizator existent.
+    * @param \App\Models\User $user Utilizatorul selectat
+    * @return \Illuminate\View\View
+    */
     public function edit(User $user)
     {
 
         return view('admin.users.edit', compact('user'));
     }
 
-    // metoda pentru a actualiza un utilizator
+    /**
+    * Actualizeaza datele unui utilizator in baza de date.
+    * Permite schimbarea parolei doar daca este completata.
+    * Verifica automat daca contul devine inactiv pe baza datei de final.
+    * @param \Illuminate\Http\Request $request Noile date din formular
+    * @param \App\Models\User $user Utilizatorul care se actualizeaza
+    * @return \Illuminate\Http\RedirectResponse Redirect inapoi la lista
+    */
     public function update(Request $request, User $user)
     {
         $validated = $request->validate([
@@ -137,6 +170,12 @@ class UserController extends Controller
 
     }
 
+    /**
+    * Sterge un utilizator din sistem.
+    * Include o masura de siguranta pentru a preveni stergerea propriului cont.
+    * @param \App\Models\User $user Utilizatorul de sters
+    * @return \Illuminate\Http\RedirectResponse
+    */
     public function destroy(User $user)
     {
         if (Auth::id() == $user->id) {
