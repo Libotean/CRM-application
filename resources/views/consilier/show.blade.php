@@ -8,7 +8,7 @@
                 </span>
                 Informatii Client
             </h1>
-            <a href="{{ route('consilier.clients.index') }}" class="text-gray-600 hover:text-black font-bold transition flex items-center bg-white border border-gray-300 px-5 py-2 rounded-lg shadow-sm hover:shadow-md">
+            <a href="{{ route('admin.clients.index') }}" class="text-gray-600 hover:text-black font-bold transition flex items-center bg-white border border-gray-300 px-5 py-2 rounded-lg shadow-sm hover:shadow-md">
                 <span class="mr-2">&larr;</span> Inapoi
             </a>
         </div>
@@ -24,7 +24,7 @@
                         <h2 class="text-2xl font-extrabold text-black uppercase leading-tight">
                             {{ $client->firstname }} <br> {{ $client->lastname }}
                         </h2>
-                        
+
                         <div class="mt-4 flex flex-col gap-2">
                             <span class="px-3 py-1 text-xs font-bold rounded uppercase border {{ $client->type == 'juridica' ? 'bg-purple-50 text-purple-700 border-purple-200' : 'bg-blue-50 text-blue-700 border-blue-200' }}">
                                 {{ $client->type == 'juridica' ? 'Persoana Juridica' : 'Persoana Fizica' }}
@@ -32,6 +32,19 @@
                             <span class="px-3 py-1 text-xs font-bold rounded uppercase border {{ $client->status == 'activ' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200' }}">
                                 Cont {{ $client->status }}
                             </span>
+                        </div>
+
+                        <div class="mt-6 pt-4 border-t border-gray-100">
+                            <a href="{{ route('vehicles.index') }}"
+                               class="block w-full bg-red-700 hover:bg-red-800 text-white font-bold py-2 px-4 rounded shadow transition duration-200 text-sm flex items-center justify-center gap-2 group hover:shadow-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 mr-2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" />
+                                    <circle cx="7" cy="17" r="2" />
+                                    <circle cx="17" cy="17" r="2" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 17h4m6 0h4" />
+                                </svg>
+                                ASIGNEAZA VEHICUL
+                            </a>
                         </div>
                     </div>
 
@@ -43,7 +56,7 @@
                                 {{ $client->phone ?? '-' }}
                             </div>
                         </div>
-                        
+
                         <div class="group">
                             <label class="text-xs text-gray-400 font-bold uppercase mb-1 block">Email</label>
                             <div class="flex items-center text-gray-900 font-medium break-all">
@@ -81,21 +94,21 @@
                     <form action="{{ route('consilier.leads.store', $client->id) }}" method="POST" class="bg-white p-6 rounded-lg shadow border border-gray-200">
                         @csrf
                         <div class="flex flex-col md:flex-row gap-4 mb-4">
-                            
+
                             <div class="flex-1">
                                 <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Data si Ora</label>
                                 <div class="flex gap-2">
-                                    <input type="date" name="appointment_date" value="{{ date('Y-m-d') }}" 
-                                        class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-red-700 focus:ring-1 focus:ring-red-700 transition">
-                                    
-                                    <input type="time" name="appointment_time" value="{{ date('H:00') }}" 
-                                        class="w-32 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-red-700 focus:ring-1 focus:ring-red-700 transition">
+                                    <input type="date" name="appointment_date" value="{{ date('Y-m-d') }}"
+                                           class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-red-700 focus:ring-1 focus:ring-red-700 transition">
+
+                                    <input type="time" name="appointment_time" value="{{ date('H:00') }}"
+                                           class="w-32 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-red-700 focus:ring-1 focus:ring-red-700 transition">
                                 </div>
                             </div>
-                            
+
                             <div class="flex-1">
                                 <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Metoda</label>
-                                <select name="method" 
+                                <select name="method"
                                         class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white focus:outline-none focus:border-red-700 focus:ring-1 focus:ring-red-700 transition">
                                     <option value="Telefon">Telefon</option>
                                     <option value="Email">Email</option>
@@ -105,7 +118,7 @@
 
                             <div class="flex-1">
                                 <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Obiectiv</label>
-                                <select name="objective" 
+                                <select name="objective"
                                         class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white focus:outline-none focus:border-red-700 focus:ring-1 focus:ring-red-700 transition">
                                     <option value="Oferta">Oferta</option>
                                     <option value="Test Drive">Test Drive</option>
@@ -117,9 +130,9 @@
 
                         <div class="flex gap-4 items-start">
                             <div class="flex-grow">
-                                <textarea name="notes" rows="1" 
-                                        class="w-full border border-gray-300 rounded px-3 py-3 text-sm focus:outline-none focus:border-red-700 focus:ring-1 focus:ring-red-700 transition resize-none" 
-                                        placeholder="Scrie detalii..."></textarea>
+                                <textarea name="notes" rows="1"
+                                          class="w-full border border-gray-300 rounded px-3 py-3 text-sm focus:outline-none focus:border-red-700 focus:ring-1 focus:ring-red-700 transition resize-none"
+                                          placeholder="Scrie detalii..."></textarea>
                             </div>
                             <button type="submit" class="bg-red-700 text-white px-8 py-3 rounded text-sm font-bold uppercase hover:bg-red-800 transition shadow-lg flex-shrink-0 border border-red-700">
                                 Salveaza
@@ -147,7 +160,7 @@
 
                                 <div class="flex-grow pb-8">
                                     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition hover:border-red-200 relative">
-                                        
+
                                         <div class="flex justify-between items-start mb-3">
                                             <div>
                                                 <h4 class="font-bold text-xl text-gray-900">{{ $lead->objective }}</h4>
