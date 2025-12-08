@@ -12,7 +12,7 @@
             </a>
         </div>
 
-        <form action="{{ route('admin.users.store') }}" method="POST" class="bg-white p-8 rounded shadow-md border border-gray-200">
+        <form action="{{ route('consilier.clients.store') }}" method="POST" class="bg-white p-8 rounded shadow-md border border-gray-200">
             @csrf
 
             @if ($errors->any())
@@ -47,8 +47,54 @@
                            value="{{ old('firstname') }}" required>
                     @error('firstname') <p class="text-red-600 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
                 </div>
-            </div>
 
+                {{-- Am adaugat Script ul javascript in interiorul fisierul blade --}}
+
+                <div class="md:col-span-2">
+                    <label for="type" class="block text-gray-800 text-sm font-bold mb-2 uppercase">Persoana fizica/juridica</label>
+                    <select name="type" id="type"
+                            class="w-full border-2 rounded px-4 py-3 focus:outline-none transition font-medium bg-white
+                            @error('role') border-red-600 focus:border-red-700 @else border-gray-300 focus:border-black @enderror"
+                            required>
+                        <option value="persoana_fizica" {{ old('type') == 'persoana_fizica' ? 'selected' : '' }}>Persoana Fizica</option>
+                        <option value="persoana_juridica" {{ old('type') == 'persoana_juridica' ? 'selected' : '' }}>Persoana Juridica</option>
+                    </select>
+                    @error('role') <p class="text-red-600 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
+                </div>
+
+                {{-- CNP --}}
+                <div id="cnp_display">
+                    <label for="cnp" class="block text-gray-800 text-sm font-bold mb-2 uppercase">CNP</label>
+                    <input type="text" name="cnp" id="cnpInput"
+                           class="w-full border-2 rounded px-4 py-3 focus:outline-none transition font-medium
+                           @error('lastname') border-red-600 focus:border-red-700 text-red-900 @else border-gray-300 focus:border-black text-gray-900 @enderror"
+                           value="{{ old('cnp') }}" >
+                    @error('cnp') <p class="text-red-600 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
+                </div>
+
+                {{-- CUI --}}
+                <div id="cui_display" class = "hidden">
+                    <label for="cui" class="block text-gray-800 text-sm font-bold mb-2 uppercase">CUI</label>
+                    <input type="text" name="cui" id="cuiInput"
+                           class="w-full border-2 rounded px-4 py-3 focus:outline-none transition font-medium
+                           @error('lastname') border-red-600 focus:border-red-700 text-red-900 @else border-gray-300 focus:border-black text-gray-900 @enderror"
+                           value="{{ old('cui') }}" >
+                    @error('cui') <p class="text-red-600 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
+                </div>
+
+                <div class="md:col-span-2">
+                    <label for="tva_payer" class="block text-gray-800 text-sm font-bold mb-2 uppercase">Platitor TVA</label>
+                    <select name="tva_payer" id="tva_payer"
+                            class="w-full border-2 rounded px-4 py-3 focus:outline-none transition font-medium bg-white
+                            @error('tva_payer') border-red-600 focus:border-red-700 @else border-gray-300 focus:border-black @enderror"
+                            required>
+                        <option value="1" {{ old('tva_payer') == '1' ? 'selected' : '' }}>DA</option>
+                        <option value="0" {{ old('tva_payer') == '0' ? 'selected' : '' }}>NU</option>
+                    </select>
+                    @error('tva_payer') <p class="text-red-600 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
+                </div>
+            </div>
+                
 
             <h2 class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-6 border-b border-gray-100 pb-2">
                 2. Detalii Cont & Acces
@@ -65,25 +111,14 @@
                 </div>
 
                 <div>
-                    <label for="password" class="block text-gray-800 text-sm font-bold mb-2 uppercase">Parola *<span class="text-gray-400 font-normal lowercase ml-1">(minim 8 caractere)</span></label>
-                    <input type="password" name="password" id="password"
+                    <label for="phone" class="block text-gray-800 text-sm font-bold mb-2 uppercase">Nr Telefon *<span class="text-gray-400 font-normal lowercase ml-1">(minim 10 caractere)</span></label>
+                    <input type="phone" name="phone" id="phone"
                            class="w-full border-2 rounded px-4 py-3 focus:outline-none transition font-medium
-                           @error('password') border-red-600 focus:border-red-700 text-red-900 @else border-gray-300 focus:border-black text-gray-900 @enderror"
+                           @error('phone') border-red-600 focus:border-red-700 text-red-900 @else border-gray-300 focus:border-black text-gray-900 @enderror"
                            required>
-                    @error('password') <p class="text-red-600 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
+                    @error('phone') <p class="text-red-600 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="md:col-span-2">
-                    <label for="role" class="block text-gray-800 text-sm font-bold mb-2 uppercase">Rol in Sistem *</label>
-                    <select name="role" id="role"
-                            class="w-full border-2 rounded px-4 py-3 focus:outline-none transition font-medium bg-white
-                            @error('role') border-red-600 focus:border-red-700 @else border-gray-300 focus:border-black @enderror"
-                            required>
-                        <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>Consilier Vanzari (Standard)</option>
-                        <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Administrator (Acces Total)</option>
-                    </select>
-                    @error('role') <p class="text-red-600 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
-                </div>
             </div>
 
             <h2 class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-6 border-b border-gray-100 pb-2">
@@ -114,30 +149,20 @@
                            @error('locality') border-red-600 focus:border-red-700 @else border-gray-300 focus:border-black @enderror"
                            value="{{ old('locality') }}" required>
                 </div>
-            </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label for="date_start" class="block text-gray-800 text-sm font-bold mb-2 uppercase">Data Inceput</label>
-                    <input type="date" name="date_start" id="date_start"
+                <div class="md:col-span-2">
+                    <label for="address" class="block text-gray-800 text-sm font-bold mb-2 uppercase">Adresa*</label>
+                    <input type="address" name="address" id="address"
                            class="w-full border-2 rounded px-4 py-3 focus:outline-none transition font-medium
-                           @error('date_start') border-red-600 focus:border-red-700 @else border-gray-300 focus:border-black @enderror"
-                           value="{{ old('date_start') }}">
-                    @error('date_start') <p class="text-red-600 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
+                           @error('address') border-red-600 focus:border-red-700 @else border-gray-300 focus:border-black @enderror"
+                           value="{{ old('address') }}" required>
                 </div>
 
-                <div>
-                    <label for="date_end" class="block text-gray-800 text-sm font-bold mb-2 uppercase">Data Sfarsit</label>
-                    <input type="date" name="date_end" id="date_end"
-                           class="w-full border-2 rounded px-4 py-3 focus:outline-none transition font-medium
-                           @error('date_end') border-red-600 focus:border-red-700 @else border-gray-300 focus:border-black @enderror"
-                           value="{{ old('date_end') }}">
-                    @error('date_end') <p class="text-red-600 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
-                </div>
+
             </div>
 
             <div class="mt-10 pt-6 border-t border-gray-200 flex items-center justify-between">
-                <a href="{{ route('admin.users.index') }}" class="text-gray-500 hover:text-black font-bold uppercase tracking-wide text-sm transition">
+                <a href="{{ route('consilier.clients.index') }}" class="text-gray-500 hover:text-black font-bold uppercase tracking-wide text-sm transition">
                     Anuleaza
                 </a>
                 
@@ -148,4 +173,43 @@
 
         </form>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () =>{
+            const tipPersoana = document.getElementById("type");
+            const afisareCNP = document.getElementById("cnp_display");
+            const afisareCUI = document.getElementById("cui_display");
+            const cnpInput = document.getElementById("cnpInput");
+            const cuiInput = document.getElementById("cuiInput");
+
+            function updateField(){
+                
+                if(tipPersoana.value == "persoana_fizica"){
+                    afisareCNP.classList.remove("hidden");
+                    afisareCUI.classList.add("hidden");
+
+                    cnpInput.required = true;
+                    cnpInput.disabled = false;
+
+                    cuiInput.required = false;
+                    cuiInput.disabled = true;
+
+                }
+                else{ // tipPersoana.value == "persoana_juridica"
+                    afisareCNP.classList.add("hidden");
+                    afisareCUI.classList.remove("hidden");
+
+                    cnpInput.required = false;
+                    cnpInput.disabled = true;
+
+                    cuiInput.required = true;
+                    cuiInput.disabled = false
+                }
+            }
+            updateField();
+            tipPersoana.addEventListener("change", updateField);
+        });
+
+
+    </script>
 </x-layout>
