@@ -4,11 +4,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ConsilierController;
-
-//Route::get('/', function () {
-//    $user = Auth::user();
-//    return view('dashboard', compact('user'));
-//})->middleware('auth');
+use App\Http\Controllers\VehicleController;
 
 // ruta pentru afisarea formularului login
 Route::get('/login', [AuthController::class, 'showLoginForm']) -> name('login');
@@ -17,34 +13,43 @@ Route::get('/login', [AuthController::class, 'showLoginForm']) -> name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
 
-
 Route::middleware('auth')->group(function () {
     Route::get('/', function (){
-       $user = Auth::user();
-       return view('dashboard', compact('user'));
+        $user = Auth::user();
+        return view('dashboard', compact('user'));
     });
 
     // ruta pentru logout
     Route::post('/logout', [AuthController::class, 'logout']) -> name('logout');
 
+    // RUTELE PENTRU VEHICULE
+
+    // Lista de vehicule
+    Route::get('/vehicule', [VehicleController::class, 'index']) -> name('vehicles.index');
+
+    // Vanzare / Asignare client
+    Route::get('/vehicule/{id}/vinde', [VehicleController::class, 'sell']) -> name('vehicles.sell');
+    Route::post('/vehicule/{id}/vinde', [VehicleController::class, 'processSale']) -> name('vehicles.processSale');
+    // =========================================================
+
+
     // grup rute admin
     Route::prefix('admin')->middleware('is_admin')->name('admin.')->group(function () {
-
-        // lista utilizatori
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
-
-        // form adaugare utilizator
         Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
-
-        // procesare si salvare utilizator
         Route::post('/users', [UserController::class, 'store'])->name('users.store');
     });
 
-    //routa pentru consilier
-    Route::prefix('consilier')->middleware('is_consilier')->name('consilier.')->group(function () {
-        Route::get('index', [ConsilierController::class, 'index'])->name('index');
+    // RUTELE PENTRU CONSILIER
+    Route::prefix('consilier')->middleware('is_consilier')->group(function () {
 
-        Route::post('index', [ConsilierController::class, 'store'])->name('store');
+        // 1. Ruta de index (Tabelul Clienti)
+        // O numim EXPLICIT 'admin.clients.index' ca să meargă butonul colegilor
+        Route::get('index', [ConsilierController::class, 'index'])->name('admin.clients.index');
+
+        // 2. Ruta de salvare (Adaugare client)
+        // Pe asta o lasam cu nume de consilier
+        Route::post('index', [ConsilierController::class, 'store'])->name('consilier.store');
     });
 
 });
