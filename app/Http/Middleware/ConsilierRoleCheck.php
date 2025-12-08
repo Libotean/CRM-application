@@ -10,13 +10,22 @@ use Symfony\Component\HttpFoundation\Response;
 class ConsilierRoleCheck
 {
     /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
+    * Gestioneaza accesul pentru rutele dedicate Consilierilor de vanzari.
+    *
+    * Acest middleware actioneaza ca un filtru de securitate pentru zona operativa a aplicatiei.
+    * Asigura ca doar utilizatorii autentificati si care au rolul specific de 'user'
+    * pot accesa functionalitatile de gestionare clienti si lead-uri.
+    *
+    * Logica de verificare:
+    * 1. Autentificare: Daca utilizatorul nu e logat face Redirect la Login.
+    * 2. Autorizare: Daca utilizatorul e logat dar are alt rol face Redirect cu eroare.
+    *
+    * @param  \Illuminate\Http\Request  $request  Cererea HTTP
+    * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+    * @return \Symfony\Component\HttpFoundation\Response
+    */
     public function handle(Request $request, Closure $next): Response
     {
-        // Verifică dacă user-ul este logat și NU e admin
         if (!Auth::check()) {
             return redirect('/login');
         }

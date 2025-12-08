@@ -74,6 +74,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/clients/{client}/leads', [LeadController::class, 'store'])->name('leads.store');
         
         Route::patch('/leads/{lead}/toggle', [LeadController::class, 'toggleStatus'])->name('leads.toggle');
+
+        Route::post('/clients/{client}/send-email', [LeadController::class, 'sendEmail'])->name('leads.sendEmail');
     });
 
 });

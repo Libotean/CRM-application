@@ -55,7 +55,7 @@
                         <div>
                             <label class="block text-sm font-bold text-gray-500 uppercase mb-1">Rol Sistem</label>
                             <p class="text-lg font-bold text-black uppercase">
-                                {{ $user->role == 'admin' ? 'Administrator' : 'Consilier Vânzări' }}
+                                {{ $user->role == 'admin' ? 'Administrator' : 'Consilier Vanzari' }}
                             </p>
                         </div>
 
