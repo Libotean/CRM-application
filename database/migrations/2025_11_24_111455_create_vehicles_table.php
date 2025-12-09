@@ -18,12 +18,12 @@ return new class extends Migration
             $table->foreignId('vehicle_make_id')->constrained();
             $table->foreignId('vehicle_model_id')->constrained();
 
-            // AICI LEGĂM DE TABELA TA EXISTENTĂ 'clients'
-            // Este nullable() pentru că atunci când aduci mașina, nu e vândută nimănui.
+
+
             $table->foreignId('client_id')
                 ->nullable()
-                ->constrained('client') // Specificăm explicit numele tabelei tale
-                ->nullOnDelete();        // Dacă ștergi clientul, mașina rămâne în istoric (fără proprietar)
+                ->constrained('clients')
+                ->nullOnDelete();
 
             // --- IDENTIFICARE STOC ---
             $table->string('internal_catalog_number')->unique()->nullable(); // 110001
