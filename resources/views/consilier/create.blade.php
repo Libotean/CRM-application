@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center mb-8 border-b-2 border-black pb-4">
             <div>
                 <h1 class="text-3xl font-extrabold text-black uppercase tracking-tight">
-                    Adauga Consilier
+                    Adauga Client
                 </h1>
             </div>
             
