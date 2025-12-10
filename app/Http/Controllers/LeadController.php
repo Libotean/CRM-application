@@ -44,7 +44,7 @@ class LeadController extends Controller
         ]);
 
 
-        return back()->with('success');
+        return back()->with('success', 'Lead creat cu succes.');
     }
 
     /**
@@ -64,7 +64,7 @@ class LeadController extends Controller
             'is_completed' => !$lead->is_completed
         ]);
 
-        return back()->with('success');
+        return back()->with('success', 'Status actualizat cu succes');
     }
 
     /**
@@ -107,6 +107,6 @@ class LeadController extends Controller
             'is_completed' => true,
         ]);
 
-        return back()->with('succes', 'Email trimis');
+        return back()->with('success', 'Email trimis');
     }
 }

@@ -30,7 +30,7 @@ class EmailLeadTest extends TestCase
                          ]);
 
         // 3. ASSERT
-        $response->assertSessionHas('succes'); // Sau 'success', cum ai pus in controller
+        $response->assertSessionHas('success'); // Sau 'success', cum ai pus in controller
 
         // A. Verificam daca s-a incercat trimiterea mailului
         Mail::assertSent(ContactClientMail::class, function ($mail) use ($client) {
