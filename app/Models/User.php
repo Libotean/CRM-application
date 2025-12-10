@@ -55,7 +55,7 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed', // hash automat la setarea parolei
+            // 'password' => 'hashed', // hash automat la setarea parolei
             'is_active' =>'boolean',
         ];
     }

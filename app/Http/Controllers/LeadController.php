@@ -44,7 +44,7 @@ class LeadController extends Controller
         ]);
 
 
-        return back()->with('succes');
+        return back()->with('success');
     }
 
     /**
