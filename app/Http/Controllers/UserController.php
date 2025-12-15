@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+
 class UserController extends Controller
 {
     /**
@@ -48,7 +49,7 @@ class UserController extends Controller
             'filters' => $request->all() 
         ]);
     }
-
+    
     /**
     * Afiseaza formularul de creare a unui utilizator nou.
     * @return \Illuminate\View\View
@@ -57,7 +58,7 @@ class UserController extends Controller
     {
         return view('admin.users.create');
     }
-
+    
     /**
     * Salveaza un utilizator nou in baza de date.
     * Valideaza datele, hash-uieste parola si seteaza datele de valabilitate ale contului.
@@ -69,12 +70,12 @@ class UserController extends Controller
         $validated = $request->validate([
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
-            'email' => 'required|email|email:rfc,dns|unique:users,email',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
             'country' => 'required|string|max:255',
             'county' => 'required|string|max:255',
             'locality' => 'required|string|max:255',
-            'role' => ['required', Rule::in(['admin', 'user'])], // rolul trebuie sa fie admin sau user
+            'role' => ['required', Rule::in(['admin', 'user'])],
             'date_start' => 'nullable|date',
             'date_end' => 'nullable|date|after_or_equal:date_start',
         ]);
@@ -94,7 +95,7 @@ class UserController extends Controller
 
         return redirect()->route('admin.users.index')->with('success', 'User created successfully');
     }
-
+    
     /**
     * Afiseaza detaliile complete ale unui utilizator.
     * Incarca lista de clienti asociati acestui utilizator.
@@ -114,7 +115,6 @@ class UserController extends Controller
     */
     public function edit(User $user)
     {
-
         return view('admin.users.edit', compact('user'));
     }
 
@@ -131,7 +131,7 @@ class UserController extends Controller
         $validated = $request->validate([
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
-            'email' => ['required', 'email:rfc,dns', 'email', Rule::unique('users')->ignore($user->id)],
+            'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
             'password' => 'nullable|string|min:8',
             'country' => 'required|string|max:255',
             'county' => 'required|string|max:255',
@@ -157,8 +157,11 @@ class UserController extends Controller
             $dataToUpdate['password'] = Hash::make($validated['password']);
         }
 
-        if($validated['date_end']) {
-            if (\Carbon\Carbon::parse($validated['date_end'])->isPast()) {
+  
+        if(isset($validated['date_end'])) {
+            $endDateTime = \Carbon\Carbon::parse($validated['date_end'])->endOfDay();
+            
+            if ($endDateTime->isPast()) {
                 $dataToUpdate['is_active'] = false;
             } else {
                 $dataToUpdate['is_active'] = true;
@@ -167,9 +170,8 @@ class UserController extends Controller
 
         $user->update($dataToUpdate);
         return redirect()->route('admin.users.index')->with('success', 'User actualizat cu succes');
-
     }
-
+	
     /**
     * Sterge un utilizator din sistem.
     * Include o masura de siguranta pentru a preveni stergerea propriului cont.
