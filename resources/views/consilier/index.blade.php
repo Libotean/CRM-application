@@ -74,6 +74,7 @@
                         <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Nume Complet</th>
                         <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Email</th>
                         <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Status Cont</th>
+                        <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase">Tip</th>
                         <th class="py-4 px-6 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Actiuni</th>
                     </tr>
                 </thead>
@@ -99,6 +100,14 @@
                                 </span>
                             @endif
                         </td>
+
+                        <td class="py-4 px-6">
+                                @if($client->type == 'persoana_juridica')
+                                    <span class="px-2 py-1 text-xs font-bold bg-purple-100 text-purple-800 rounded uppercase">Juridica</span>
+                                @else
+                                    <span class="px-2 py-1 text-xs font-bold bg-blue-100 text-blue-800 rounded uppercase">Fizica</span>
+                                @endif
+                            </td>
 
                         <td class="py-4 px-6 whitespace-nowrap text-right">
                             <div class="flex items-center justify-end gap-3">
