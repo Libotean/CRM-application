@@ -12,7 +12,7 @@ class LeadSecurityTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    /** @test **/
     public function a_user_cannot_modify_leads_that_are_not_his()
     {
 
