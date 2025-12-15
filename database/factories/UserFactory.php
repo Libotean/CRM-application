@@ -2,34 +2,52 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ */
 class UserFactory extends Factory
 {
-    protected $model = User::class;
+    /**
+     * The current password being used by the factory.
+     */
+    protected static ?string $password;
 
-    public function definition()
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
     {
         return [
-            'firstname'  => $this->faker->firstName(),
-            'lastname'   => $this->faker->lastName(),
-            'country'    => $this->faker->country(),
-            'county'     => $this->faker->state(),
-            'locality'   => $this->faker->city(),
-            'email'      => $this->faker->unique()->safeEmail(),
-            'password'   => 'password', // hash automat prin cast
-            'date_start' => now()->subDays(rand(1, 10)),
-            'date_end'   => now()->addDays(rand(5, 30)),
-            'role'       => $this->faker->randomElement(['admin', 'user']),
-            'is_active'  => true,
+            'firstname' => fake()->firstName(),
+            'lastname' => fake()->lastName(),
+            'email' => fake()->unique()->safeEmail(),
+            //'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            //'remember_token' => \Illuminate\Support\Str::random(10),
+            
+            'role' => 'user', 
+            'country' => 'Romania',
+            'county' => 'Bucuresti',
+            'locality' => 'Sector 1',
+            'is_active' => true,
+            'date_start' => now(),
+            'date_end' => now()->addYear(),
         ];
     }
 
-    public function inactive()
+    /**
+     * Indicate that the model's email address should be unverified.
+     */
+    public function unverified(): static
     {
-        return $this->state(fn () => [
-            'is_active' => false,
+        return $this->state(fn (array $attributes) => [
+            'email_verified_at' => null,
         ]);
     }
 }

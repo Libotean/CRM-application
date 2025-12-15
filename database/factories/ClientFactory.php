@@ -2,31 +2,26 @@
 
 namespace Database\Factories;
 
-use App\Models\Client;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ClientFactory extends Factory
 {
-    protected $model = Client::class;
-
-    public function definition()
+    public function definition(): array
     {
         return [
-            'user_id'   => User::factory(),
-            'type'      => $this->faker->randomElement(['pf', 'pj']),
-            'firstname' => $this->faker->firstName(),
-            'lastname'  => $this->faker->lastName(),
-            'cnp'       => $this->faker->numerify('###########'), // 13 cifre
-            'cui'       => $this->faker->numerify('########'),
-            'tva_payer' => $this->faker->boolean(),
-            'email'     => $this->faker->safeEmail(),
-            'phone'     => $this->faker->phoneNumber(),
-            'country'   => $this->faker->country(),
-            'county'    => $this->faker->state(),
-            'locality'  => $this->faker->city(),
-            'address'   => $this->faker->address(),
-            'status'    => $this->faker->randomElement(['active', 'inactive']),
+            // Creaza automat un user daca nu e specificat
+            'user_id' => \App\Models\User::factory(), 
+            'firstname' => fake()->firstName(),
+            'lastname' => fake()->lastName(),
+            'type' => 'persoana_fizica',
+            'email' => fake()->unique()->safeEmail(),
+            'phone' => '0740123456',
+            'tva_payer' => false,
+            'status' => 'activ',
+            'country' => 'Romania',
+            'county' => 'Cluj',
+            'locality' => 'Cluj-Napoca',
+            'address' => 'Strada Testului nr 1',
         ];
     }
 }
