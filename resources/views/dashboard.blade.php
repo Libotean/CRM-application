@@ -9,7 +9,7 @@
     </div>
 
     @if ( $user->role == 'admin' )
-        
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-red-700">
                 <div class="text-gray-500 text-xs font-bold uppercase">Total Utilizatori</div>
@@ -80,7 +80,7 @@
                 </h2>
                 <a href="{{ route('consilier.clients.index') }}" class="text-red-700 font-bold text-sm hover:underline">Vezi toti clientii &rarr;</a>
             </div>
-            
+
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-100">
@@ -93,15 +93,15 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        {{-- 
-                            Logica: Luăm lead-urile nefinalizate, le sortăm cronologic (cele mai vechi/urgente primele) și luăm doar 5 
+                        {{--
+                            Logica: Lua lead-urile nefinalizate, le sortăm cronologic (cele mai vechi/urgente primele) și luăm doar 5
                         --}}
                         @forelse($user->leads->where('is_completed', false)->sortBy('appointment_date')->take(5) as $lead)
                             <tr class="hover:bg-yellow-50 transition">
                                 <td class="px-6 py-4 whitespace-nowrap text-sm">
                                     <span class="font-bold text-gray-900">{{ $lead->appointment_date->format('d.m.Y') }}</span>
                                     <span class="text-gray-500 ml-1">{{ $lead->appointment_date->format('H:i') }}</span>
-                                    
+
                                     @if($lead->appointment_date->isPast())
                                         <span class="ml-2 text-xs font-bold text-red-600 bg-red-100 px-2 py-0.5 rounded">INTARZIAT</span>
                                     @endif
@@ -139,5 +139,6 @@
 
     @endif
 
-        
+
+
 </x-layout>
