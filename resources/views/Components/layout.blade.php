@@ -21,22 +21,35 @@
             <div class="text-2xl font-bold tracking-tighter uppercase">
                 <span class="text-red-600">ATP</span> MOTORS <span class="text-gray-400 text-sm font-normal normal-case ml-2">| CRM Intern</span>
             </div>
+            @if (auth()->user()->role === 'admin')
+                <div class="flex items-center gap-6">
+                    <a href="{{ route('admin.users.index') }}" class="{{ request()->routeIs('admin.users.*') ? 'text-white border-b-2 border-red-600' : 'text-gray-400 hover:text-white' }} transition font-medium pb-1">
+                        Consilieri
+                    </a>
+                    
+                    <a href="{{ route('admin.clients.index') }}" class="{{ request()->routeIs('admin.clients.*') ? 'text-white border-b-2 border-red-600' : 'text-gray-400 hover:text-white' }} transition font-medium pb-1">
+                        Clienti
+                    </a>
 
-            <div class="flex items-center gap-6">
-                <a href="{{ route('admin.users.index') }}" class="{{ request()->routeIs('admin.users.*') ? 'text-white border-b-2 border-red-600' : 'text-gray-400 hover:text-white' }} transition font-medium pb-1">
-                    Consilieri
-                </a>
-                
-                <a href="{{ route('admin.clients.index') }}" class="{{ request()->routeIs('admin.clients.*') ? 'text-white border-b-2 border-red-600' : 'text-gray-400 hover:text-white' }} transition font-medium pb-1">
-                    Clienti
-                </a>
+                    <form method="POST" action="{{ route('logout') }}" class="ml-4">
+                        @csrf
+                        <button type="submit" class="bg-red-700 hover:bg-red-800 px-4 py-2 rounded text-sm font-bold transition">
+                            IESIRE
+                        </button>
+                    </form>
+                @else
+                    <div class="flex items-center gap-6">
+                    <a href="{{ route('consilier.clients.index') }}" class="{{ request()->routeIs('consilier.clients.*') ? 'text-white border-b-2 border-red-600' : 'text-gray-400 hover:text-white' }} transition font-medium pb-1">
+                        Clienti
+                    </a>
 
-                <form method="POST" action="{{ route('logout') }}" class="ml-4">
-                    @csrf
-                    <button type="submit" class="bg-red-700 hover:bg-red-800 px-4 py-2 rounded text-sm font-bold transition">
-                        IESIRE
-                    </button>
-                </form>
+                    <form method="POST" action="{{ route('logout') }}" class="ml-4">
+                        @csrf
+                        <button type="submit" class="bg-red-700 hover:bg-red-800 px-4 py-2 rounded text-sm font-bold transition">
+                            IESIRE
+                        </button>
+                    </form>
+                @endif
             </div>
         </div>
     </nav>
