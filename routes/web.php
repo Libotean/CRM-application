@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ConsilierController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\VehicleController;
-// --- IMPORTANT: Am adăugat controller-ul pentru Test Drive ---
 use App\Http\Controllers\TestDriveController;
 
 // Rute Login
