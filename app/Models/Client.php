@@ -7,10 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Client extends Model
 {
-    /**
-     * Atributele care pot fi completate in masa.
-     */
+
     use HasFactory;
+
     protected $fillable = [
         'user_id',
         'type',
@@ -61,5 +60,16 @@ class Client extends Model
     public function leads()
     {
         return $this->hasMany(Lead::class);
+    }
+
+    /**
+     * ✅ RELATIE NOUA ADĂUGATĂ
+     * Aceasta este necesara pentru a arata vehiculele asignate in pagina show.blade.php
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function vehicles()
+    {
+        return $this->hasMany(Vehicle::class);
     }
 }
