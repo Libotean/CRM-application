@@ -24,9 +24,7 @@ Route::middleware('auth')->group(function () {
     // Logout
     Route::post('/logout', [AuthController::class, 'logout']) -> name('logout');
 
-    // =========================================================
-    // ✅ RUTELE PENTRU VEHICULE (Parc Auto & Vânzare)
-    // =========================================================
+    // RUTELE PENTRU VEHICULE
 
     // 1. Lista de vehicule
     Route::get('/vehicule', [VehicleController::class, 'index'])->name('vehicles.index');
@@ -35,14 +33,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/vehicule/{id}/vinde', [VehicleController::class, 'sell'])->name('vehicles.sell');
     Route::post('/vehicule/{id}/vinde', [VehicleController::class, 'processSale'])->name('vehicles.processSale');
 
-    // 3. Editare Vehicul (Opțional)
+    // 3. Editare Vehicul
     Route::get('/vehicule/{id}/edit', [VehicleController::class, 'edit'])->name('vehicles.edit');
     Route::put('/vehicule/{id}', [VehicleController::class, 'update'])->name('vehicles.update');
 
-    // =========================================================
-    // ✅ RUTA PENTRU TEST DRIVE (FR-16)
-    // Aceasta este ruta pe care o caută formularul din show.blade.php
-    // =========================================================
+    //  RUTA PENTRU TEST DRIVE
     Route::post('/clients/{client}/test-drive', [TestDriveController::class, 'store'])->name('test_drives.store');
 
 
