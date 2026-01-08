@@ -56,7 +56,7 @@ Route::middleware('auth')->group(function () {
         // stergere utilizator
         Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     });
-    
+
     //routa pentru consilier
     Route::prefix('consilier')->middleware('is_consilier')->name('consilier.')->group(function () {
         Route::get('/clients/index', [ConsilierController::class, 'index'])->name( 'clients.index');
@@ -72,10 +72,8 @@ Route::middleware('auth')->group(function () {
         Route::put('/clients/{client}/update', [ConsilierController::class, 'update'])->name('clients.update');
 
         Route::post('/clients/{client}/leads', [LeadController::class, 'store'])->name('leads.store');
-        
-        Route::patch('/leads/{lead}/toggle', [LeadController::class, 'toggleStatus'])->name('leads.toggle');
 
-        Route::post('/clients/{client}/send-email', [LeadController::class, 'sendEmail'])->name('leads.sendEmail');
+        Route::patch('/leads/{lead}/toggle', [LeadController::class, 'toggleStatus'])->name('leads.toggle');
     });
 
 });
