@@ -180,58 +180,7 @@
     @endif
 
     {{-- CARACTERISTICI TEHNICE --}}
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        {{-- COMBUSTIBIL --}}
-        @if($vanzariPeCombustibil->isNotEmpty())
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200">
-            <div class="p-6 border-b border-gray-200 bg-gray-50">
-                <h2 class="text-lg font-bold text-gray-800">Combustibil</h2>
-            </div>
-            <div class="p-6">
-                @foreach($vanzariPeCombustibil as $item)
-                <div class="flex justify-between items-center py-2 border-b border-gray-100 last:border-0">
-                    <span class="text-sm font-medium text-gray-700">{{ $item->fuel_type }}</span>
-                    <span class="text-sm font-bold text-gray-900">{{ $item->nr_vanzari }}</span>
-                </div>
-                @endforeach
-            </div>
-        </div>
-        @endif
-
-        {{-- TRANSMISIE --}}
-        @if($vanzariPeTransmisie->isNotEmpty())
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200">
-            <div class="p-6 border-b border-gray-200 bg-gray-50">
-                <h2 class="text-lg font-bold text-gray-800">Transmisie</h2>
-            </div>
-            <div class="p-6">
-                @foreach($vanzariPeTransmisie as $item)
-                <div class="flex justify-between items-center py-2 border-b border-gray-100 last:border-0">
-                    <span class="text-sm font-medium text-gray-700">{{ $item->transmission }}</span>
-                    <span class="text-sm font-bold text-gray-900">{{ $item->nr_vanzari }}</span>
-                </div>
-                @endforeach
-            </div>
-        </div>
-        @endif
-
-        {{-- TRACTIUNE --}}
-        @if($vanzariPeTractiune->isNotEmpty())
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200">
-            <div class="p-6 border-b border-gray-200 bg-gray-50">
-                <h2 class="text-lg font-bold text-gray-800">Tractiune</h2>
-            </div>
-            <div class="p-6">
-                @foreach($vanzariPeTractiune as $item)
-                <div class="flex justify-between items-center py-2 border-b border-gray-100 last:border-0">
-                    <span class="text-sm font-medium text-gray-700">{{ $item->traction }}</span>
-                    <span class="text-sm font-bold text-gray-900">{{ $item->nr_vanzari }}</span>
-                </div>
-                @endforeach
-            </div>
-        </div>
-        @endif
-    </div>
+    
 
     {{-- TOP CLIENTI --}}
     @if($topClienti->isNotEmpty())
@@ -262,35 +211,6 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $item['judet'] }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-700">{{ $item['nr_achizitii'] }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-right font-bold text-green-600">€{{ number_format($item['valoare_totala'], 0, ',', '.') }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
-    @endif
-
-    {{-- ANALIZA GEOGRAFICA --}}
-    @if($vanzariPeJudet->isNotEmpty())
-    <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
-        <div class="p-6 border-b border-gray-200 bg-gray-50">
-            <h2 class="text-xl font-bold text-gray-800">Analiza Geografica - Top 15 Judete</h2>
-        </div>
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-100">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Judet</th>
-                        <th class="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase">Nr. Vanzari</th>
-                        <th class="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase">Valoare Totala</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    @foreach($vanzariPeJudet as $item)
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $item->judet }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-700">{{ $item->nr_vanzari }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-right font-bold text-green-600">€{{ number_format($item->valoare_totala, 0, ',', '.') }}</td>
                     </tr>
                     @endforeach
                 </tbody>
