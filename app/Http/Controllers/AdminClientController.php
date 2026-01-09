@@ -182,7 +182,7 @@ class AdminClientController extends Controller
             ->join('vehicle_models', 'vehicles.vehicle_model_id', '=', 'vehicle_models.id')
             ->join('vehicle_makes', 'vehicles.vehicle_make_id', '=', 'vehicle_makes.id')
             ->select(
-                DB::raw('CONCAT(vehicle_makes.name, " ", vehicle_models.name) as model_complet'),
+                DB::raw('vehicle_makes.name || " " || vehicle_models.name as model_complet'), // ← Schimbat aici
                 DB::raw('count(*) as nr_vanzari'), 
                 DB::raw('sum(vehicles.price_eur) as valoare_totala'),
                 DB::raw('avg(vehicles.price_eur) as pret_mediu')
@@ -191,7 +191,6 @@ class AdminClientController extends Controller
             ->orderByDesc('nr_vanzari')
             ->limit(15)
             ->get();
-
         // 6. VANZARI PE CATEGORIE
         $vanzariPeCategorie = Vehicle::whereNotNull('vehicles.client_id')
             ->whereBetween('vehicles.updated_at', [$startDate, $endDate])
