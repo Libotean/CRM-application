@@ -1,7 +1,6 @@
 <x-layout>
     <div class="w-full px-6 py-6 bg-gray-50 min-h-screen">
 
-        {{-- HEADER --}}
         <div class="flex justify-between items-center mb-8 pb-4 border-b border-gray-300">
             <h1 class="text-3xl font-extrabold text-gray-900 uppercase tracking-tight flex items-center">
                 <span class="bg-red-700 text-white w-10 h-10 flex items-center justify-center rounded-lg mr-3 shadow-sm">
@@ -16,7 +15,6 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
-            {{-- SIDEBAR: PROFIL --}}
             <div class="lg:col-span-3 space-y-6 sticky top-6">
                 <div class="bg-white p-6 rounded-xl shadow-lg border-t-8 border-black">
                     <div class="text-center mb-8">
@@ -41,7 +39,6 @@
                         <div class="group"><label class="text-xs text-gray-400 font-bold uppercase mb-1 block">{{ $client->cui ? 'CUI' : 'CNP' }}</label><p class="font-mono text-gray-600 bg-gray-100 px-3 py-2 rounded border border-gray-200 inline-block w-full">{{ $client->cnp ?? $client->cui ?? '-' }}</p></div>
                         <div class="group"><label class="text-xs text-gray-400 font-bold uppercase mb-1 block">Adresa</label><p class="text-gray-800 leading-snug">{{ $client->locality }}, {{ $client->county }}</p><p class="text-gray-500 text-xs mt-1">{{ $client->address }}</p></div>
 
-                        {{-- VEHICULE ASIGNATE (SIDEBAR) --}}
                         <div class="group border-t border-dashed border-gray-200 pt-4 mt-2">
                             <div class="flex justify-between items-center mb-2">
                                 <label class="text-xs text-gray-400 font-bold uppercase block">Vehicule Asignate</label>
@@ -69,10 +66,8 @@
                 </div>
             </div>
 
-            {{-- CONTINUT PRINCIPAL --}}
             <div class="lg:col-span-9 space-y-8">
 
-                {{-- FORMULAR INTERACTIUNE (MODIFICAT PT KM) --}}
                 <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 shadow-inner">
                     <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
                         <span class="bg-black text-white w-8 h-8 flex items-center justify-center rounded-full mr-3 text-sm shadow">
@@ -88,7 +83,6 @@
                             <div class="flex-1 w-full"><label class="block text-xs font-bold text-gray-400 uppercase mb-1">Metoda</label><select name="method" class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"><option value="Telefon">Telefon</option><option value="Email">Email</option><option value="Showroom">Showroom</option></select></div>
                             <div class="flex-1 w-full">
                                 <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Obiectiv</label>
-                                {{-- ✅ MODIFICAT: ID si ONCHANGE --}}
                                 <select name="objective" id="objectiveSelector" onchange="toggleKmInput()" class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white">
                                     <option value="Oferta">Oferta</option>
                                     <option value="Test Drive">Test Drive</option>
@@ -97,7 +91,6 @@
                                 </select>
                             </div>
 
-                            {{-- ✅ ADAUGAT: CĂSUȚA ASCUNSĂ PENTRU KM --}}
                             <div id="kmInputContainer" class="hidden flex-1 w-full transition-all duration-300">
                                 <label class="block text-xs font-bold text-red-700 uppercase mb-1">Kilometri (KM)</label>
                                 <input type="number" name="km" placeholder="Ex: 15000" class="w-full border border-red-300 bg-red-50 rounded px-3 py-2 text-sm text-red-900 focus:ring-red-500 focus:border-red-500">
@@ -111,7 +104,6 @@
                     <div class="flex justify-end mt-4"><button onclick="toggleEmailForm()" type="button" class="text-blue-700 font-bold hover:text-blue-900 flex items-center text-sm transition">Trimite un email</button></div>
                 </div>
 
-                {{-- FORMULAR EMAIL (ASCUNS) --}}
                 <div id="emailFormSection" class="hidden bg-blue-50 p-6 rounded-xl border border-blue-200 shadow-inner">
                     <div class="flex justify-between items-center mb-4"><h3 class="text-lg font-bold text-gray-800">Trimite Email</h3><button onclick="toggleEmailForm()" class="text-gray-400 hover:text-red-500">✕</button></div>
                     <form action="{{ route('consilier.leads.sendEmail', $client->id) }}" method="POST" class="bg-white p-6 rounded-lg shadow border border-blue-100">
@@ -122,7 +114,6 @@
                     </form>
                 </div>
 
-                {{-- CRONOLOGIE --}}
                 <div>
                     <h3 class="text-xl font-bold text-gray-800 mb-6 border-b-2 border-gray-200 pb-2">Cronologie Activitati</h3>
                     <div class="space-y-4">
