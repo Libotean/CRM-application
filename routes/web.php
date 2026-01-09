@@ -49,6 +49,9 @@ Route::middleware('auth')->group(function () {
 
         Route::resource('clients', AdminClientController::class);
 
+        // Ruta pentru Rapoarte Admin
+        Route::get('/rapoarte', [AdminClientController::class, 'adminIndex'])->name('rapoarte.index');
+
         // lista utilizatori
         // Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
