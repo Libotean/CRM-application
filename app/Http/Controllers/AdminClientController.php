@@ -58,6 +58,15 @@ class AdminClientController extends Controller
         return view('admin.clients.index', compact('clients', 'consilieri'));
     }
 
+    public function show(Client $client)
+    {
+        $client->load(['leads' => function ($query) {
+            $query->orderBy('appointment_date', 'desc');
+        }]);
+
+        return view('admin.clients.show', compact('client'));
+    }
+
     /**
      * Stergere client din baza de date.
      *

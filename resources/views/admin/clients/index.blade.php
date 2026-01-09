@@ -68,7 +68,7 @@
                         <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase">Tip</th>
                         <th class="py-4 px-6 text-left text-xs font-bold text-red-700 uppercase">Consilier Alocat</th>
                         <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase">Data Inreg.</th>
-                        <th class="py-4 px-6 text-right"></th>
+                        <th class="py-4 px-6 text-right text-xs font-bold text-gray-500 uppercase">Actiuni</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
@@ -117,7 +117,7 @@
                             </td>
 
                             <td class="py-4 px-6 text-right">
-                                <a href="#" class="text-gray-400 hover:text-black font-bold text-sm">Detalii</a>
+                                <a href="{{  route('admin.clients.show', $client->id)}}" class="text-red-600 hover:text-black uppercase font-bold text-sm">Detalii</a>
                             </td>
                         </tr>
                     @empty

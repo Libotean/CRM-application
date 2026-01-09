@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminClientController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
@@ -45,16 +46,31 @@ Route::middleware('auth')->group(function () {
     Route::prefix('admin')->middleware('is_admin')->name('admin.')->group(function () {
 
         Route::resource('users', UserController::class);
-        Route::resource('clients', \App\Http\Controllers\AdminClientController::class);
 
-        // Rute manuale
-        Route::get('/users', [UserController::class, 'index'])->name('users.index');
-        Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
-        Route::post('/users', [UserController::class, 'store'])->name('users.store');
-        Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
-        Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-        Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
-        Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+        Route::resource('clients', AdminClientController::class);
+
+        // lista utilizatori
+        // Route::get('/users', [UserController::class, 'index'])->name('users.index');
+
+        // // form adaugare utilizator
+        // Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+
+        // // procesare si salvare utilizator
+        // Route::post('/users', [UserController::class, 'store'])->name('users.store');
+
+        // // afisare detalii utilizator
+        // Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+
+        // // form editare utilizator
+        // Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+
+        // // form actualizare utilizator
+        // Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+
+        // // stergere utilizator
+        // Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+
+        //Route::get('/clients/{client}', [AdminClientController::class, 'show'])->name('clients.show');
     });
 
     // --- GRUP RUTE CONSILIER ---
