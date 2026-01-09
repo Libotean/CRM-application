@@ -57,7 +57,6 @@
                     <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Nume Complet</th>
                     <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Email</th>
                     <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Status Cont</th>
-                    {{-- ✅ COLOANA RESTAURATA: TIP --}}
                     <th class="py-4 px-6 text-left text-xs font-bold text-gray-500 uppercase">Tip</th>
                     <th class="py-4 px-6 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Actiuni</th>
                 </tr>
@@ -76,7 +75,6 @@
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800"><span class="w-2 h-2 bg-red-500 rounded-full mr-1.5"></span> Inactiv</span>
                             @endif
                         </td>
-                        {{-- ✅ LOGICA PENTRU TIP PERSOANA --}}
                         <td class="py-4 px-6">
                             @if($client->type == 'persoana_juridica' || $client->type == 'PJ' || $client->type == 'juridica')
                                 <span class="px-2 py-1 text-xs font-bold bg-purple-100 text-purple-800 rounded uppercase">Juridica</span>

@@ -63,7 +63,7 @@ class Client extends Model
     }
 
     /**
-     * ✅ RELATIE NOUA ADĂUGATĂ
+     * Relatia cu modelul Vehicle.
      * Aceasta este necesara pentru a arata vehiculele asignate in pagina show.blade.php
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
