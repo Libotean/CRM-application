@@ -75,6 +75,27 @@
                             <p class="text-gray-500 text-xs mt-1">{{ $client->address }}</p>
                         </div>
 
+                        <div class="group border-t border-dashed border-gray-200 pt-4 mt-2">
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-xs text-gray-400 font-bold uppercase block">Vehicule Asignate</label>
+                            </div>
+
+                            @if($client->vehicles->isNotEmpty())
+                                <div class="flex flex-col gap-2">
+                                    @foreach($client->vehicles as $vehicle)
+                                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-3 relative group/item">
+                                            <span class="text-sm font-bold text-gray-900 block">
+                                                {{ $vehicle->make->name ?? '' }} {{ $vehicle->model->name ?? '' }}
+                                            </span>
+                                            <span class="text-xs text-gray-500">{{ $vehicle->vin ?? 'Fara VIN' }}</span>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @else
+                                <p class="text-xs text-gray-400 italic">Nu are vehicule asignate.</p>
+                            @endif
+                        </div>
+
                     </div>
                 </div>
             </div>
