@@ -41,19 +41,30 @@
                         <div class="group"><label class="text-xs text-gray-400 font-bold uppercase mb-1 block">{{ $client->cui ? 'CUI' : 'CNP' }}</label><p class="font-mono text-gray-600 bg-gray-100 px-3 py-2 rounded border border-gray-200 inline-block w-full">{{ $client->cnp ?? $client->cui ?? '-' }}</p></div>
                         <div class="group"><label class="text-xs text-gray-400 font-bold uppercase mb-1 block">Adresa</label><p class="text-gray-800 leading-snug">{{ $client->locality }}, {{ $client->county }}</p><p class="text-gray-500 text-xs mt-1">{{ $client->address }}</p></div>
 
-                        {{-- VEHICULE ASIGNATE --}}
-                        @if($client->vehicles->isNotEmpty())
-                            <div class="group border-t border-dashed border-gray-200 pt-4 mt-2">
-                                <label class="text-xs text-gray-400 font-bold uppercase mb-2 block">Vehicule Asignate</label>
+                        {{-- VEHICULE ASIGNATE (SIDEBAR) --}}
+                        <div class="group border-t border-dashed border-gray-200 pt-4 mt-2">
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-xs text-gray-400 font-bold uppercase block">Vehicule Asignate</label>
+                                <a href="{{ route('vehicles.index') }}" class="bg-black text-white w-5 h-5 flex items-center justify-center rounded-full hover:bg-gray-800 transition shadow-sm" title="Asigneaza Vehicul">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                                </a>
+                            </div>
+
+                            @if($client->vehicles->isNotEmpty())
                                 <div class="flex flex-col gap-2">
                                     @foreach($client->vehicles as $vehicle)
-                                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
-                                            <span class="text-sm font-bold text-gray-900">{{ $vehicle->make->name ?? '' }} {{ $vehicle->model->name ?? '' }}</span>
+                                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-3 relative group/item">
+                                            <span class="text-sm font-bold text-gray-900 block">
+                                                {{ $vehicle->make->name ?? '' }} {{ $vehicle->model->name ?? '' }}
+                                            </span>
+                                            <span class="text-xs text-gray-500">{{ $vehicle->vin ?? 'Fara VIN' }}</span>
                                         </div>
                                     @endforeach
                                 </div>
-                            </div>
-                        @endif
+                            @else
+                                <p class="text-xs text-gray-400 italic">Nu are vehicule asignate.</p>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -61,65 +72,39 @@
             {{-- CONTINUT PRINCIPAL --}}
             <div class="lg:col-span-9 space-y-8">
 
-                {{-- 1. FORMULAR TEST DRIVE (NOU) --}}
-                <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
-                    <div class="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
-                        <div class="bg-black text-white w-10 h-10 flex items-center justify-center rounded-full shadow-md"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg></div>
-                        <h3 class="text-xl font-bold text-gray-800">Programeaza Test Drive</h3>
-                    </div>
-                    <form action="{{ route('test_drives.store', $client->id) }}" method="POST">
-                        @csrf
-                        <div class="space-y-6">
-                            <div>
-                                <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Vehicul Asignat</label>
-                                @if($client->vehicles->isNotEmpty())
-                                    @php $assignedCar = $client->vehicles->first(); @endphp
-                                    <input type="hidden" name="vehicle_id" value="{{ $assignedCar->id }}">
-                                    <div class="w-full border border-gray-200 bg-gray-100 rounded-lg px-4 py-3 text-gray-700 font-bold flex items-center justify-between shadow-sm">
-                                        <div class="flex items-center gap-3">
-                                            <span>{{ $assignedCar->make->name ?? 'Marca' }} {{ $assignedCar->model->name ?? 'Model' }} <span class="text-gray-500 font-normal text-sm ml-1">- {{ $assignedCar->vin ?? 'Fara VIN' }}</span></span>
-                                        </div>
-                                        <div class="text-xs font-bold text-gray-400 uppercase border border-gray-300 px-2 py-1 rounded">ASIGNAT</div>
-                                    </div>
-                                @else
-                                    <div class="p-4 bg-red-50 text-red-700 rounded-lg border border-red-200 flex items-center">Eroare: Acest client nu are niciun vehicul asignat!</div>
-                                @endif
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div><label class="block text-xs font-bold text-gray-400 uppercase mb-2">Data Programarii</label><input type="date" name="scheduled_date" value="{{ date('Y-m-d') }}" class="w-full border border-gray-200 rounded-lg px-4 py-3 text-gray-700"></div>
-                                <div><label class="block text-xs font-bold text-gray-400 uppercase mb-2">Ora</label><input type="time" name="scheduled_time" value="{{ date('H:00') }}" class="w-full border border-gray-200 rounded-lg px-4 py-3 text-gray-700"></div>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Kilometri la preluare (Start KM)</label>
-                                <input type="number" name="start_km" placeholder="Ex: 15000" class="w-full border border-gray-200 rounded-lg px-4 py-3 text-gray-700">
-                            </div>
-                            <div class="pt-4 flex justify-end items-center gap-4">
-                                <a href="{{ route('consilier.clients.show', $client->id ) }}" class="text-gray-500 font-bold text-sm hover:text-black transition cursor-pointer">Renunta</a>
-                                <button type="submit" class="bg-red-700 text-white font-bold text-sm px-8 py-3 rounded-lg shadow-md hover:bg-red-800 transition">SALVEAZA TEST DRIVE</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-                {{-- 2. FORMULAR INTERACTIUNE (VECHI) --}}
+                {{-- FORMULAR INTERACTIUNE (SIMPLU - STIL MAIN BRANCH) --}}
                 <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 shadow-inner">
-                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center"><span class="bg-black text-white w-8 h-8 flex items-center justify-center rounded-full mr-3 text-sm shadow">@</span> Adauga Interactiune</h3>
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="bg-black text-white w-8 h-8 flex items-center justify-center rounded-full mr-3 text-sm shadow">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                        </span>
+                        Adauga Interactiune Noua
+                    </h3>
+
                     <form action="{{ route('consilier.leads.store', $client->id) }}" method="POST" class="bg-white p-6 rounded-lg shadow border border-gray-200">
                         @csrf
                         <div class="flex flex-col md:flex-row gap-4 mb-4">
                             <div class="flex-1"><label class="block text-xs font-bold text-gray-400 uppercase mb-1">Data/Ora</label><div class="flex gap-2"><input type="date" name="appointment_date" value="{{ date('Y-m-d') }}" class="w-full border border-gray-300 rounded px-3 py-2 text-sm"><input type="time" name="appointment_time" value="{{ date('H:00') }}" class="w-32 border border-gray-300 rounded px-3 py-2 text-sm"></div></div>
                             <div class="flex-1"><label class="block text-xs font-bold text-gray-400 uppercase mb-1">Metoda</label><select name="method" class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"><option value="Telefon">Telefon</option><option value="Email">Email</option><option value="Showroom">Showroom</option></select></div>
-                            <div class="flex-1"><label class="block text-xs font-bold text-gray-400 uppercase mb-1">Obiectiv</label><select name="objective" class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"><option value="Oferta">Oferta</option><option value="Livrare">Livrare</option><option value="General">Discutie Generala</option></select></div>
+                            <div class="flex-1">
+                                <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Obiectiv</label>
+                                <select name="objective" class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white">
+                                    <option value="Oferta">Oferta</option>
+                                    <option value="Test Drive">Test Drive</option>
+                                    <option value="Livrare">Livrare</option>
+                                    <option value="General">Discutie Generala</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="flex gap-4 items-start">
                             <textarea name="notes" rows="1" class="w-full border border-gray-300 rounded px-3 py-3 text-sm resize-none" placeholder="Scrie detalii..."></textarea>
-                            <button type="submit" class="bg-gray-800 text-white px-8 py-3 rounded text-sm font-bold uppercase hover:bg-black transition">Adauga</button>
+                            <button type="submit" class="bg-red-700 text-white px-8 py-3 rounded text-sm font-bold uppercase hover:bg-red-800 transition shadow-lg flex-shrink-0">SALVEAZA</button>
                         </div>
                     </form>
                     <div class="flex justify-end mt-4"><button onclick="toggleEmailForm()" type="button" class="text-blue-700 font-bold hover:text-blue-900 flex items-center text-sm transition">Trimite un email</button></div>
                 </div>
 
-                {{-- 3. FORMULAR EMAIL (ASCUNS) --}}
+                {{-- FORMULAR EMAIL (ASCUNS) --}}
                 <div id="emailFormSection" class="hidden bg-blue-50 p-6 rounded-xl border border-blue-200 shadow-inner">
                     <div class="flex justify-between items-center mb-4"><h3 class="text-lg font-bold text-gray-800">Trimite Email</h3><button onclick="toggleEmailForm()" class="text-gray-400 hover:text-red-500">✕</button></div>
                     <form action="{{ route('consilier.leads.sendEmail', $client->id) }}" method="POST" class="bg-white p-6 rounded-lg shadow border border-blue-100">
@@ -130,7 +115,7 @@
                     </form>
                 </div>
 
-                {{-- 4. CRONOLOGIE --}}
+                {{-- CRONOLOGIE --}}
                 <div>
                     <h3 class="text-xl font-bold text-gray-800 mb-6 border-b-2 border-gray-200 pb-2">Cronologie Activitati</h3>
                     <div class="space-y-4">
