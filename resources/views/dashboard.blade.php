@@ -72,7 +72,6 @@
                 </h3>
             </div>
 
-            {{-- Aici am de motidifcat pentru gestiunea clientilor --}}
             <a href="{{ route('consilier.clients.create') }}" class="bg-black group p-6 rounded-lg shadow-md hover:bg-gray-900 transition flex flex-col justify-center text-center items-center cursor-pointer">
                 <div class="bg-red-700 text-white p-3 rounded-full mb-2 group-hover:scale-110 transition">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
@@ -101,9 +100,7 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        {{--
-                            Logica: Lua lead-urile nefinalizate, le sortăm cronologic (cele mai vechi/urgente primele) și luăm doar 5
-                        --}}
+                        
                         @forelse($user->leads->where('is_completed', false)->sortBy('appointment_date')->take(5) as $lead)
                             <tr class="hover:bg-yellow-50 transition">
                                 <td class="px-6 py-4 whitespace-nowrap text-sm">
