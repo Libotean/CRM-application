@@ -72,7 +72,7 @@
             {{-- CONTINUT PRINCIPAL --}}
             <div class="lg:col-span-9 space-y-8">
 
-                {{-- FORMULAR INTERACTIUNE (SIMPLU - STIL MAIN BRANCH) --}}
+                {{-- FORMULAR INTERACTIUNE (MODIFICAT PT KM) --}}
                 <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 shadow-inner">
                     <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
                         <span class="bg-black text-white w-8 h-8 flex items-center justify-center rounded-full mr-3 text-sm shadow">
@@ -83,17 +83,24 @@
 
                     <form action="{{ route('consilier.leads.store', $client->id) }}" method="POST" class="bg-white p-6 rounded-lg shadow border border-gray-200">
                         @csrf
-                        <div class="flex flex-col md:flex-row gap-4 mb-4">
-                            <div class="flex-1"><label class="block text-xs font-bold text-gray-400 uppercase mb-1">Data/Ora</label><div class="flex gap-2"><input type="date" name="appointment_date" value="{{ date('Y-m-d') }}" class="w-full border border-gray-300 rounded px-3 py-2 text-sm"><input type="time" name="appointment_time" value="{{ date('H:00') }}" class="w-32 border border-gray-300 rounded px-3 py-2 text-sm"></div></div>
-                            <div class="flex-1"><label class="block text-xs font-bold text-gray-400 uppercase mb-1">Metoda</label><select name="method" class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"><option value="Telefon">Telefon</option><option value="Email">Email</option><option value="Showroom">Showroom</option></select></div>
-                            <div class="flex-1">
+                        <div class="flex flex-col md:flex-row gap-4 mb-4 items-start">
+                            <div class="flex-1 w-full"><label class="block text-xs font-bold text-gray-400 uppercase mb-1">Data/Ora</label><div class="flex gap-2"><input type="date" name="appointment_date" value="{{ date('Y-m-d') }}" class="w-full border border-gray-300 rounded px-3 py-2 text-sm"><input type="time" name="appointment_time" value="{{ date('H:00') }}" class="w-32 border border-gray-300 rounded px-3 py-2 text-sm"></div></div>
+                            <div class="flex-1 w-full"><label class="block text-xs font-bold text-gray-400 uppercase mb-1">Metoda</label><select name="method" class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"><option value="Telefon">Telefon</option><option value="Email">Email</option><option value="Showroom">Showroom</option></select></div>
+                            <div class="flex-1 w-full">
                                 <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Obiectiv</label>
-                                <select name="objective" class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white">
+                                {{-- ✅ MODIFICAT: ID si ONCHANGE --}}
+                                <select name="objective" id="objectiveSelector" onchange="toggleKmInput()" class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white">
                                     <option value="Oferta">Oferta</option>
                                     <option value="Test Drive">Test Drive</option>
                                     <option value="Livrare">Livrare</option>
                                     <option value="General">Discutie Generala</option>
                                 </select>
+                            </div>
+
+                            {{-- ✅ ADAUGAT: CĂSUȚA ASCUNSĂ PENTRU KM --}}
+                            <div id="kmInputContainer" class="hidden flex-1 w-full transition-all duration-300">
+                                <label class="block text-xs font-bold text-red-700 uppercase mb-1">Kilometri (KM)</label>
+                                <input type="number" name="km" placeholder="Ex: 15000" class="w-full border border-red-300 bg-red-50 rounded px-3 py-2 text-sm text-red-900 focus:ring-red-500 focus:border-red-500">
                             </div>
                         </div>
                         <div class="flex gap-4 items-start">
@@ -152,10 +159,25 @@
         </div>
     </div>
 
+    {{-- SCRIPTOURI JS (Email + KM Toggle) --}}
     <script>
         function toggleEmailForm() {
             const form = document.getElementById('emailFormSection');
             form.classList.toggle('hidden');
+        }
+
+        // ✅ FUNCTIA PENTRU AFISARE KM
+        function toggleKmInput() {
+            const select = document.getElementById('objectiveSelector');
+            const kmContainer = document.getElementById('kmInputContainer');
+
+            if (select.value === 'Test Drive') {
+                kmContainer.classList.remove('hidden');
+            } else {
+                kmContainer.classList.add('hidden');
+                // Optional: golim campul daca nu e test drive
+                kmContainer.querySelector('input').value = '';
+            }
         }
     </script>
 </x-layout>

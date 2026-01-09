@@ -42,7 +42,7 @@ class ConsilierController extends Controller
         $validated = $request->validate([
             'firstname' => 'required|string|max:255',
             'lastname'  => 'required|string|max:255',
-            'type'      => 'required|string',
+            'type'      => 'required|string', // Folosim string simplu
             'cnp'       => ['nullable','string','max:13','required_if:type,persoana_fizica','unique:clients,cnp'],
             'cui'       => ['nullable','string','max:12','required_if:type,persoana_juridica','unique:clients,cui'],
             'tva_payer' => 'required|boolean',
@@ -75,15 +75,16 @@ class ConsilierController extends Controller
             ->with('success', 'Clientul a fost creat cu succes');
     }
 
-
     public function show(Client $client)
     {
-        // 1. Verificam ca apartine userului
+        // 1. Verificam ca apartine userului logat (Securitate)
+        // Daca clientul exista in baza dar nu e al tau, va da eroare 404/403 aici.
         $client = Client::where('id', $client->id)
             ->where('user_id', auth()->id())
             ->firstOrFail();
 
-        // 2. Incarcam relatiile: Lead-uri (sortate) SI Vehicule
+        // 2. Incarcam relatiile STRICT pentru acest client
+        // Asta garanteaza ca nu vezi lead-urile altcuiva
         $client->load([
             'leads' => function ($query) {
                 $query->orderBy('appointment_date', 'desc');
@@ -101,13 +102,13 @@ class ConsilierController extends Controller
 
     public function update(Request $request, Client $client)
     {
+        // Am corectat validarea sa foloseasca formatele lungi (persoana_fizica) la fel ca la store
         $validated = $request->validate([
             'firstname' => 'required|string|max:255',
             'lastname'  => 'required|string|max:255',
-            'type'      => 'required|in:PF,PJ',
-            'cnp'       => ['nullable','string','max:13','required_if:type,PF','unique:clients,cnp,' . $client->id],
-            'cui'       => ['nullable','string','max:12','required_if:type,PJ','unique:clients,cui,' . $client->id],
             'type'      => 'required|string',
+            'cnp'       => ['nullable','string','max:13','required_if:type,persoana_fizica','unique:clients,cnp,' . $client->id],
+            'cui'       => ['nullable','string','max:12','required_if:type,persoana_juridica','unique:clients,cui,' . $client->id],
             'tva_payer' => 'required|in:0,1',
             'email'     => 'required|email|unique:clients,email,' . $client->id,
             'phone'     => 'required|string|max:15',
