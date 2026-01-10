@@ -43,20 +43,20 @@ class VehicleController extends Controller
     }
 
     // Pagina de confirmare vanzare
-    public function sell($id)
+    public function sell(Request $request, $id)
     {
         $vehicle = Vehicle::findOrFail($id);
 
-        if ($vehicle->client_id) {
-            return redirect()->route('vehicles.index')
-                ->with('error', 'Această mașină a fost deja vândută!');
-        }
-
-        // Aici luam clientii pentru cazul in care venim fara ID,
-        // dar daca avem ID in URL, il vom folosi pe acela in view.
+        // 1. Luam TOTI clientii din baza de date pentru lista (sortati alfabetic)
         $clients = Client::orderBy('lastname', 'asc')->get();
 
-        return view('vehicles.sell', compact('vehicle', 'clients'));
+        // 2. (Optional) Daca  un ID, il preselectam, dar nu e obligatoriu
+        $selectedClient = null;
+        if ($request->has('client_id')) {
+            $selectedClient = Client::find($request->client_id);
+        }
+
+        return view('vehicles.sell', compact('vehicle', 'clients', 'selectedClient'));
     }
 
     // Procesarea vanzarii

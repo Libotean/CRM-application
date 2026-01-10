@@ -1,57 +1,63 @@
 <x-layout>
-    <div class="py-12 flex justify-center">
-        <div class="w-full max-w-2xl">
+    <div class="min-h-screen bg-gray-50 flex flex-col justify-center items-center p-6">
 
-            <div class="bg-white overflow-hidden shadow-lg sm:rounded-lg p-8">
+        <div class="bg-white rounded-xl shadow-2xl overflow-hidden max-w-md w-full border border-gray-200">
 
-                <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-4">
-                    💸 Finalizare Vânzare
-                </h2>
+            {{-- Header Negru --}}
+            <div class="bg-black p-6 text-center border-b-4 border-red-700">
+                <h1 class="text-2xl font-extrabold text-white uppercase tracking-wider">
+                    Asignare Vehicul
+                </h1>
+                <p class="text-gray-400 text-xs font-bold uppercase mt-2">
+                    Consilier: <span class="text-white">{{ Auth::user()->name ?? (Auth::user()->firstname . ' ' . Auth::user()->lastname) }}</span>
+                </p>
+            </div>
 
-                <div class="mb-6">
-                    <p class="text-sm text-gray-500">Consilier Vânzări:</p>
-                    <p class="font-bold text-gray-800 text-lg">
-                        {{ Auth::user()->firstname }} {{ Auth::user()->lastname }}
-                    </p>
-                </div>
-
-                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8 flex items-center gap-4">
-                    <div class="text-4xl">🚗</div>
-                    <div>
-                        <h3 class="font-bold text-lg text-gray-900">
-                            {{ $vehicle->make->name }} {{ $vehicle->model->name }}
-                        </h3>
-                        <p class="text-blue-700 font-bold mt-1">
-                            Preț Final: {{ number_format($vehicle->price_eur, 0, '.', '.') }} €
-                        </p>
+            <div class="p-8">
+                <div class="flex flex-col items-center mb-8">
+                    <h2 class="text-xl font-black text-gray-900 text-center leading-tight">
+                        {{ $vehicle->make->name }} {{ $vehicle->model->name }}
+                    </h2>
+                    <div class="mt-2 bg-gray-100 px-3 py-1 rounded text-xs font-mono text-gray-600 border border-gray-200 uppercase tracking-widest">
+                        VIN: {{ $vehicle->vin }}
                     </div>
+                    @if($vehicle->price)
+                        <p class="mt-4 text-3xl font-bold text-gray-800 tracking-tight">
+                            {{ number_format($vehicle->price, 0) }} €
+                        </p>
+                    @endif
                 </div>
 
                 <form action="{{ route('vehicles.processSale', $vehicle->id) }}" method="POST">
                     @csrf
-                    <div class="mb-6">
-                        <label class="block font-medium text-sm text-gray-700 mb-2">Selectează Clientul</label>
-                        <select name="client_id" class="w-full border-gray-300 rounded-md shadow-sm p-2 border" required>
-                            <option value="">-- Alege din listă --</option>
-                            @foreach($clients as $client)
-                                <option value="{{ $client->id }}">
-                                    {{ $client->lastname }} {{ $client->firstname }}
-                                    ({{ $client->cui ? 'CUI: '.$client->cui : 'CNP: '.$client->cnp }})
-                                </option>
-                            @endforeach
-                        </select>
+
+                    {{-- ✅ AICI E MODIFICAREA: LISTA DE CLIENTI (DROPDOWN) --}}
+                    <div class="mb-8">
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Alege Clientul</label>
+                        <div class="relative">
+                            <select name="client_id" class="block w-full bg-gray-50 border border-gray-300 text-gray-900 py-3 px-4 pr-8 rounded-lg focus:outline-none focus:bg-white focus:border-red-500 font-bold">
+                                <option value="">-- Selectează din listă --</option>
+                                @foreach($clients as $client)
+                                    <option value="{{ $client->id }}" {{ (isset($selectedClient) && $selectedClient->id == $client->id) ? 'selected' : '' }}>
+                                        {{ $client->lastname }} {{ $client->firstname }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="flex justify-between items-center mt-8">
-                        <a href="{{ route('vehicles.index') }}" class="text-gray-600 font-bold hover:underline">
-                            ← Renunță
+                    <div class="grid grid-cols-2 gap-4">
+                        <a href="{{ url()->previous() }}" class="flex items-center justify-center px-4 py-3 border-2 border-gray-200 text-gray-600 font-bold rounded-lg hover:border-black hover:text-black transition uppercase text-xs tracking-widest">
+                            Renunță
                         </a>
-                        <button type="submit" class="bg-green-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-700 transition shadow-md">
-                            ✅ Confirmă Vânzarea
+                        <button type="submit" class="flex items-center justify-center px-4 py-3 bg-red-700 text-white font-bold rounded-lg hover:bg-red-800 transition shadow-lg uppercase text-xs tracking-widest">
+                            Asignează
                         </button>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>

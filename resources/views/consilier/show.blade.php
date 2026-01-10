@@ -45,7 +45,9 @@
                         <div class="group border-t border-dashed border-gray-200 pt-4 mt-2">
                             <div class="flex justify-between items-center mb-2">
                                 <label class="text-xs text-gray-400 font-bold uppercase block">Vehicule Asignate</label>
-                                <a href="{{ route('vehicles.index') }}" class="bg-black text-white w-5 h-5 flex items-center justify-center rounded-full hover:bg-gray-800 transition shadow-sm" title="Asigneaza Vehicul">
+
+                                {{-- ✅ MODIFICARE AICI: Am adaugat client_id in link --}}
+                                <a href="{{ route('vehicles.index', ['client_id' => $client->id]) }}" class="bg-black text-white w-5 h-5 flex items-center justify-center rounded-full hover:bg-gray-800 transition shadow-sm" title="Asigneaza Vehicul">
                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                                 </a>
                             </div>
@@ -54,9 +56,9 @@
                                 <div class="flex flex-col gap-2">
                                     @foreach($client->vehicles as $vehicle)
                                         <div class="bg-gray-50 border border-gray-200 rounded-lg p-3 relative group/item">
-                                            <span class="text-sm font-bold text-gray-900 block">
-                                                {{ $vehicle->make->name ?? '' }} {{ $vehicle->model->name ?? '' }}
-                                            </span>
+                    <span class="text-sm font-bold text-gray-900 block">
+                        {{ $vehicle->make->name ?? '' }} {{ $vehicle->model->name ?? '' }}
+                    </span>
                                             <span class="text-xs text-gray-500">{{ $vehicle->vin ?? 'Fara VIN' }}</span>
                                         </div>
                                     @endforeach
@@ -88,7 +90,7 @@
                             <div class="flex-1 w-full"><label class="block text-xs font-bold text-gray-400 uppercase mb-1">Metoda</label><select name="method" class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"><option value="Telefon">Telefon</option><option value="Email">Email</option><option value="Showroom">Showroom</option></select></div>
                             <div class="flex-1 w-full">
                                 <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Obiectiv</label>
-                                {{-- ✅ MODIFICAT: ID si ONCHANGE --}}
+                                {{-- MODIFICAT: ID si ONCHANGE --}}
                                 <select name="objective" id="objectiveSelector" onchange="toggleKmInput()" class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white">
                                     <option value="Oferta">Oferta</option>
                                     <option value="Test Drive">Test Drive</option>
@@ -97,7 +99,7 @@
                                 </select>
                             </div>
 
-                            {{-- ✅ ADAUGAT: CĂSUȚA ASCUNSĂ PENTRU KM --}}
+
                             <div id="kmInputContainer" class="hidden flex-1 w-full transition-all duration-300">
                                 <label class="block text-xs font-bold text-red-700 uppercase mb-1">Kilometri (KM)</label>
                                 <input type="number" name="km" placeholder="Ex: 15000" class="w-full border border-red-300 bg-red-50 rounded px-3 py-2 text-sm text-red-900 focus:ring-red-500 focus:border-red-500">
