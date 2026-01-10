@@ -19,7 +19,9 @@
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             
             <div class="text-2xl font-bold tracking-tighter uppercase">
-                <span class="text-red-600">ATP</span> MOTORS <span class="text-gray-400 text-sm font-normal normal-case ml-2">| CRM Intern</span>
+                <a href="{{ route('dashboard') }}">
+                    <span class="text-red-600">ATP</span> MOTORS <span class="text-gray-400 text-sm font-normal normal-case ml-2">| CRM Intern</span>
+                </a>
             </div>
             @if (auth()->user()->role === 'admin')
                 <div class="flex items-center gap-6">
