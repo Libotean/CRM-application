@@ -48,8 +48,6 @@
                     @error('firstname') <p class="text-red-600 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
                 </div>
 
-                {{-- Am adaugat Script ul javascript in interiorul fisierul blade --}}
-
                 <div class="md:col-span-2">
                     <label for="type" class="block text-gray-800 text-sm font-bold mb-2 uppercase">Persoana fizica/juridica</label>
                     <select name="type" id="type"

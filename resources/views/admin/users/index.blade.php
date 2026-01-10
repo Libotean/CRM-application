@@ -136,7 +136,7 @@
                                 </a>
 
                                 <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" 
-                                    onsubmit="return confirm('Esti sigur că vrei sa stergi utilizatorul {{ $user->full_name }}?');" 
+                                    onsubmit="return confirm('Esti sigur ca vrei sa stergi utilizatorul {{ $user->full_name }}?');" 
                                     class="inline-block">
                                     @csrf
                                     @method('DELETE')

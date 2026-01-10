@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Vehicle;
-use App\Models\Client; // <--- Asigura-te ca ai linia asta
+use App\Models\Client; 
 use Illuminate\Support\Facades\Auth;
 
 class VehicleController extends Controller
@@ -29,10 +29,6 @@ class VehicleController extends Controller
 
         $vehicles = $query->latest()->get();
 
-        // =========================================================
-        // AICI ESTE CHEIA PROBLEMEI TALE!
-        // Fara liniile de mai jos, butonul "Inapoi" nu stie cine e clientul.
-        // =========================================================
         $client = null;
         if ($request->has('client_id')) {
             $client = Client::find($request->client_id);

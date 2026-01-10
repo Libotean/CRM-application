@@ -10,7 +10,7 @@
 
     @if ( $user->role == 'admin' )
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-red-700">
                 <div class="text-gray-500 text-xs font-bold uppercase">Total Utilizatori</div>
                 <div class="text-4xl font-bold text-gray-900 mt-2">
@@ -32,6 +32,13 @@
                 </div>
                 <div class="text-white font-bold uppercase text-sm">Creeaza Cont Nou</div>
             </a>
+
+            <a href="{{ route('admin.rapoarte.index') }}" class="bg-red-700 group p-6 rounded-lg shadow-md hover:bg-red-800 transition flex flex-col justify-center text-center items-center cursor-pointer">
+                <div class="bg-white text-red-700 p-3 rounded-full mb-2 group-hover:scale-110 transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                </div>
+                <div class="text-white font-bold uppercase text-sm">Rapoarte</div>
+            </a>
         </div>
 
         <div class="bg-white rounded-lg shadow overflow-hidden">
@@ -45,6 +52,7 @@
                 </p>
             </div>
         </div>
+
 
     @else
 
@@ -64,7 +72,6 @@
                 </h3>
             </div>
 
-            {{-- Aici am de motidifcat pentru gestiunea clientilor --}}
             <a href="{{ route('consilier.clients.create') }}" class="bg-black group p-6 rounded-lg shadow-md hover:bg-gray-900 transition flex flex-col justify-center text-center items-center cursor-pointer">
                 <div class="bg-red-700 text-white p-3 rounded-full mb-2 group-hover:scale-110 transition">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
@@ -93,9 +100,7 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        {{--
-                            Logica: Lua lead-urile nefinalizate, le sortăm cronologic (cele mai vechi/urgente primele) și luăm doar 5
-                        --}}
+                        
                         @forelse($user->leads->where('is_completed', false)->sortBy('appointment_date')->take(5) as $lead)
                             <tr class="hover:bg-yellow-50 transition">
                                 <td class="px-6 py-4 whitespace-nowrap text-sm">
