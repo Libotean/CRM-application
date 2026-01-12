@@ -9,6 +9,7 @@ use App\Http\Controllers\ConsilierController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\TestDriveController;
+use App\Http\Controllers\RapoarteController;
 
 // Rute Login
 Route::get('/login', [AuthController::class, 'showLoginForm']) -> name('login');
@@ -50,8 +51,9 @@ Route::middleware('auth')->group(function () {
         Route::resource('clients', AdminClientController::class);
 
         // Ruta pentru Rapoarte Admin
-        Route::get('/rapoarte', [AdminClientController::class, 'adminIndex'])->name('rapoarte.index');
+        Route::resource('rapoarte', RapoarteController::class);
 
+        Route::get('/rapoarte', [RapoarteController::class, 'index'])->name('rapoarte.index');
         // lista utilizatori
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
